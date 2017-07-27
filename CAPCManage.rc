@@ -1,0 +1,305 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include "targetver.h"
+#endif
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 中文(中华人民共和国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include ""targetver.h""\r\n"
+    "#endif\r\n"
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#include ""res\\CAPCManage.rc2""  // 非 Microsoft Visual C++ 编辑的资源\r\n"
+    "#include ""l.CHS\\afxres.rc""      // 标准组件\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\TestTerm.ico"
+IDR_MAINFRAME2          ICON                    "res\\ico00001.ico"
+IDR_MAINFRAME1          ICON                    "res\\idr_main.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 170, 62
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "关于 CAPCManage"
+FONT 9, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,14,14,21,20
+    LTEXT           "CAPCManage，1.0 版",IDC_STATIC,42,14,114,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2017",IDC_STATIC,42,26,114,8
+    DEFPUSHBUTTON   "确定",IDOK,113,41,50,14,WS_GROUP
+END
+
+IDD_CAPCMANAGE_DIALOG DIALOGEX 0, 0, 319, 126
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "TrustCA"
+FONT 9, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    PUSHBUTTON      "取消",IDCANCEL,255,93,50,14
+    PUSHBUTTON      "TestCA",IDC_BUTTON1,7,111,50,14
+    PUSHBUTTON      "TestUKey",IDC_BUTTON2,64,111,50,14
+    PUSHBUTTON      "确定",IDC_BTN_LOGIN,189,93,50,14
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,14,8,295,70
+    PUSHBUTTON      "登录请求",IDC_BTN_REQUEST,123,93,50,14
+    PUSHBUTTON      "导出证书",IDC_BUTTON3,57,93,50,14
+END
+
+IDD_TESTCA_DIALOG DIALOGEX 0, 0, 551, 192
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "确定",IDOK,338,169,50,14
+    PUSHBUTTON      "取消",IDCANCEL,441,169,50,14
+    PUSHBUTTON      "SOF_GenRandom",IDC_BTN_GENRANDOM,6,18,96,14
+    PUSHBUTTON      "SOF_GetInstance",IDC_BTN_GETINSTANCE,111,18,96,14
+    PUSHBUTTON      "SOF_VerifySignedData",IDC_BTN_VERIFY_SIGNED_DATA,213,18,96,14
+    PUSHBUTTON      "SOF_QueryCertTrustList",IDC_BTN_QUERY_CERTTRUSTLIST,316,18,96,14
+    PUSHBUTTON      "SOF_VerifySignedDataByP7",IDC_BTN_VERIFY_SIGNEDDATABYP7,418,18,96,14
+    PUSHBUTTON      "SOF_SetCertTrustList",IDC_BTN_SET_CERTTRUSTLIST,6,37,96,14
+    PUSHBUTTON      "SOF_GetP7SignDataInfo",IDC_BTN_GET_P7SIGNDATAINFO,112,37,96,14
+    PUSHBUTTON      "SOF_VerifyTimeStamp",IDC_BTN_VERIFY_TIMESTAMP,214,37,96,14
+    PUSHBUTTON      "SOF_PubKeyEncrypt",IDC_BTN_PUBKEY_ENCRYPT,316,37,96,14
+    PUSHBUTTON      "SOF_VerifySignedFile",IDC_BTN_VERIFYSIGNEDFILE,418,37,96,14
+    PUSHBUTTON      "SOF_GetServerCertificate",IDC_BTN_GET_SERVERCERTIFICATE,6,58,96,14
+    PUSHBUTTON      "SOF_GetCertInfoByOid",IDC_BTN_GET_CERTINFOBYOID,111,58,96,14
+    PUSHBUTTON      "SOF_DelCertTrustList",IDC_BTN_DEL_CERTTRUSTLIST,213,58,96,14
+    PUSHBUTTON      "SOF_GetXMLSignatureInfo",IDC_BTN_GET_XMLSIGNATUREINFO,316,58,96,14
+    PUSHBUTTON      "SOF_VerifySignedDataXML",IDC_BTN_VERIFY_SIGNEDDATAXML,418,58,96,14
+    PUSHBUTTON      "SOF_SignData",IDC_BTN_SIGN_DATA,6,79,96,14
+    PUSHBUTTON      "SOF_SignFile",IDC_BTN_SIGN_FILE,111,79,96,14
+    PUSHBUTTON      "SOF_PriKeyDecrypt",IDC_BTN_PRIKEY_DECRYPT,213,79,96,14
+    PUSHBUTTON      "SOF_SetWebAppName",IDC_BTN_SET_WEBAPPNAME,316,79,96,14
+    PUSHBUTTON      "SOF_GetSignMethod",IDC_BTN_GET_SIGNMETHOD,418,79,96,14
+    PUSHBUTTON      "SOF_SetEncryptMethod",IDC_BTN_SET_ENCRYPTMETHOD,6,100,96,14
+    PUSHBUTTON      "SOF_CreateTimeStampRequest",IDC_BTN_CREATE_TIMESTAMPREQUEST,112,100,96,14
+    PUSHBUTTON      "SOF_GetEncryptMethod",IDC_BTN_GET_ENCRYPTMETHOD,214,100,96,14
+    PUSHBUTTON      "SOF_CreateTimeStampResponse",IDC_BTN_CREATE_TIMESTAMPRESPONSE,316,100,96,14
+    PUSHBUTTON      "SOF_ValidateCert",IDC_BTN_VALIDATE_CERT,418,100,96,14
+    PUSHBUTTON      "SOF_DecryptFile",IDC_BTN_DECRYPT_FILE,6,120,96,14
+    PUSHBUTTON      "SOF_SetSignMethod",IDC_BTN_SET_SIGNMETHOD,111,120,96,14
+    PUSHBUTTON      "SOF_GetTimeStampInfo",IDC_BTN_GET_TIMESTAMPINFO,213,120,96,14
+    PUSHBUTTON      "SOF_SignDataByP7",IDC_BTN_SIGN_DATABYP7,316,120,96,14
+    PUSHBUTTON      "SOF_EncryptFile",IDC_BTN_ENCRYPT_FILE,418,120,96,14
+    PUSHBUTTON      "SOF_SignDataXML",IDC_BTN_SIGN_DATAXML,6,139,96,14
+    PUSHBUTTON      "SOF_DecryptData",IDC_BTN_DECRYPT_DATA,112,139,96,14
+    PUSHBUTTON      "SOF_QueryCertTrustListAltNames",IDC_BTN_QUERY_CERTTRUSTLISTALTNAMES,214,139,96,14
+    PUSHBUTTON      "SOF_GetCertInfo",IDC_BTN_GET_CERTINFO,316,139,96,14
+    PUSHBUTTON      "SOF_EncryptData",IDC_BTN_ENCRYPT_DATA,418,139,96,14
+END
+
+IDD_TESTUKEY_DIALOG DIALOGEX 0, 0, 316, 183
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "确定",IDOK,205,162,50,14
+    PUSHBUTTON      "取消",IDCANCEL,259,162,50,14
+    PUSHBUTTON      "Test",IDC_BTN_GETDEVINFO,24,23,50,14
+    PUSHBUTTON      "AppManage",IDC_BTN_APP_MANAGE,85,23,50,14
+END
+
+IDD_PIN_DIALOG DIALOGEX 0, 0, 187, 101
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "TrustCA"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "确定",IDOK,42,67,50,14
+    PUSHBUTTON      "取消",IDCANCEL,96,67,50,14
+    LTEXT           "PIN码：",IDC_STATIC,27,33,28,8
+    EDITTEXT        IDC_PIN_EDIT,62,32,87,14,ES_PASSWORD | ES_AUTOHSCROLL
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,0
+ PRODUCTVERSION 1,0,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080403a8"
+        BEGIN
+            VALUE "CompanyName", "江苏CA"
+            VALUE "FileDescription", "CA客户端"
+            VALUE "FileVersion", "1.0.0.0"
+            VALUE "InternalName", "TrustCA.exe"
+            VALUE "LegalCopyright", "江苏CA"
+            VALUE "OriginalFilename", "TrustCA.exe"
+            VALUE "ProductName", "CA客户端"
+            VALUE "ProductVersion", "1.0.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 936
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 163
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 55
+    END
+
+    IDD_CAPCMANAGE_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 312
+        TOPMARGIN, 7
+    END
+
+    IDD_TESTCA_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 544
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 191
+    END
+
+    IDD_TESTUKEY_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 309
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 176
+    END
+
+    IDD_PIN_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 94
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// HTML
+//
+
+IDR_HTML_TESTCADLG      HTML                    "TestCADlg.htm"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_ABOUTBOX            "关于 CAPCManage(&A)..."
+END
+
+#endif    // 中文(中华人民共和国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE 4, 2
+#pragma code_page(936)
+#include "res\CAPCManage.rc2"  // 非 Microsoft Visual C++ 编辑的资源
+#include "l.CHS\afxres.rc"      // 标准组件
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
