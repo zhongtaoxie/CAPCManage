@@ -3,6 +3,7 @@
 #include "httpserver/HttpProtocol.h"
 #include "reader.h"
 #include "define.h"
+#include "ParserSDMsg.h"
 
 class CParserPostMsg
 {
@@ -94,5 +95,6 @@ public:
 	int   m_nHashType;
 
 	BOOL m_bSetIP;
-//	std::string m_szOldData;
+	CString m_strUrl;
+	CParserSDMsg m_PSDM;
 };

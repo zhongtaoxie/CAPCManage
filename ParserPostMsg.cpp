@@ -17,7 +17,6 @@ extern CString g_strExePath;
 extern CString g_strTokenId;
 extern CCAPCManageDlg* g_pCADlg;
 extern CReadUKey* g_readUKey;
-//extern CReadUKey* g_readUKey;
 ECCCIPHERBLOB  pEccCipherBlob ={0};
 using namespace std;
 CParserPostMsg::CParserPostMsg(void)
@@ -25,7 +24,6 @@ CParserPostMsg::CParserPostMsg(void)
 	m_pReq = NULL;
 	m_nEncryptMethod = 0x101;
 	m_nHashType = SGD_SHA1;
-
 	m_bSetIP = FALSE;
 }
 
@@ -137,8 +135,10 @@ int  CParserPostMsg::Analyze(PREQUEST pReq, LPBYTE pBuf)
 	}
 
 	CString strUrl = m_inRoot["url"].asString().c_str();
+	m_strUrl = strUrl;
 
-	if (0 == strUrl.Compare("SetServer"))
+	if (0 == strUrl.Compare("SOF_SetServer")
+		||0 == strUrl.Compare("SetServer"))
 	{
 		return(SetServerDW());
 	}
@@ -150,136 +150,169 @@ int  CParserPostMsg::Analyze(PREQUEST pReq, LPBYTE pBuf)
 		g_strTokenId = m_strTokenId;
 		return(DealwithLogin());
 	}
-	else if (0 == strUrl.Compare("SOF_GetVersion"))
+	else if (0 == strUrl.Compare("SOF_GetVersion")
+		||0 == strUrl.Compare("GetVersion"))
 	{
 		return(DealWithVersion());
 	
 	}
-	else if (0 == strUrl.Compare("SOF_SetSignMethod"))
+	else if (0 == strUrl.Compare("SOF_SetSignMethod")
+		||0 == strUrl.Compare("SetSignMethod"))
 	{
 		return(DealwithSetSignMethod());
 	}
-	else if (0 == strUrl.Compare("SOF_GetSignMethod"))
+	else if (0 == strUrl.Compare("SOF_GetSignMethod")
+		||0 == strUrl.Compare("GetSignMethod"))
 	{
 		return(DealwithGetSignMethod());
 	}	
-	else if (0 == strUrl.Compare("SOF_SetEncryptMethod"))
+	else if (0 == strUrl.Compare("SOF_SetEncryptMethod")
+		||0 == strUrl.Compare("SetEncryptMethod"))
 	{
 		return(SOF_SetEncryptMethodDW());
 	}
-	else if (0 == strUrl.Compare("SOF_GetEncryptMethod"))
+	else if (0 == strUrl.Compare("SOF_GetEncryptMethod")
+		||0 == strUrl.Compare("GetEncryptMethod"))
 	{
 		return(SOF_GetEncryptMethodDW());
 	}
-	else if (0 == strUrl.Compare("SOF_GetUserList"))
+	else if (0 == strUrl.Compare("SOF_GetUserList")
+		||0 == strUrl.Compare("GetUserList"))
 	{
 		return(SOF_GetUserListDW());
 	}
-	else if (0 == strUrl.Compare("SOF_ExportUserCert"))
+	else if (0 == strUrl.Compare("SOF_ExportUserCert")
+		||0 == strUrl.Compare("ExportUserCert"))
 	{
 		return(SOF_ExportUserCertDW());
 	}
-	else if (0 == strUrl.Compare("SOF_Login"))
+	else if (0 == strUrl.Compare("SOF_Login")
+		||0 == strUrl.Compare("LoginSD"))
 	{
 		return(SOF_LoginDW());
 	}
-	else if (0 == strUrl.Compare("SOF_ChangePassWd"))
+	else if (0 == strUrl.Compare("SOF_ChangePassWd")
+		||0 == strUrl.Compare("ChangePassWd"))
 	{
 		return(SOF_ChangePassWdDW());
 	}
-	else if (0 == strUrl.Compare("SOF_ExportExChangeUserCert"))
+	else if (0 == strUrl.Compare("SOF_ExportExChangeUserCert")
+		||0 == strUrl.Compare("ExportExChangeUserCert"))
 	{
 		return(SOF_ExportExChangeUserCertDW());
 	}
-	else if (0 == strUrl.Compare("SOF_GetCertInfo"))
+	else if (0 == strUrl.Compare("SOF_GetCertInfo")
+		||0 == strUrl.Compare("GetCertInfo"))
 	{
 		return(SOF_GetCertInfoDW());
 	}
-	else if (0 == strUrl.Compare("SOF_GetCertInfoByOid"))
+	else if (0 == strUrl.Compare("SOF_GetCertInfoByOid")
+		||0 == strUrl.Compare("GetCertInfoByOid"))
 	{
 		return(SOF_GetCertInfoByOidDW());
 	}
-	else if (0 == strUrl.Compare("SOF_GetUserInfo"))
+	else if (0 == strUrl.Compare("SOF_GetUserInfo")
+		||0 == strUrl.Compare("GetUserInfo"))
 	{
 		return(SOF_GetUserInfoDW());
 	}
-	else if (0 == strUrl.Compare("SOF_ValidateCert"))
+	else if (0 == strUrl.Compare("SOF_ValidateCert")
+		||0 == strUrl.Compare("ValidateCert"))
 	{
 		return(SOF_ValidateCertDW());
 	}
-	else if (0 == strUrl.Compare("SOF_SignData"))
+	else if (0 == strUrl.Compare("SOF_SignData")
+		||0 == strUrl.Compare("SignData"))
 	{
 		return(SOF_SignDataDW());
 	}
-	else if (0 == strUrl.Compare("SOF_VerifySignedData"))
+	else if (0 == strUrl.Compare("SOF_VerifySignedData")
+		||0 == strUrl.Compare("VerifySignedData"))
 	{
 		return(SOF_VerifySignedDataDW());
 	}
-	else if (0 == strUrl.Compare("SOF_SignFile"))
+	else if (0 == strUrl.Compare("SOF_SignFile")
+		||0 == strUrl.Compare("SignFile"))
 	{
 		return(SOF_SignFileDW());
 	}
-	else if (0 == strUrl.Compare("SOF_VerifySignedFile"))
+	else if (0 == strUrl.Compare("SOF_VerifySignedFile")
+		||0 == strUrl.Compare("VerifySignedFile"))
 	{
 		return(SOF_VerifySignedFileDW());
 	}
-	else if (0 == strUrl.Compare("SOF_EncryptData"))
+	else if (0 == strUrl.Compare("SOF_EncryptData")
+		||0 == strUrl.Compare("EncryptData"))
 	{
 		return(SOF_EncryptDataDW2());
 	}
-	else if (0 == strUrl.Compare("SOF_DecryptData"))
+	else if (0 == strUrl.Compare("SOF_DecryptData")
+		||0 == strUrl.Compare("DecryptData"))
 	{
 		return(SOF_DecryptDataDW2());
 	}
-	else if (0 == strUrl.Compare("SOF_EncryptFile"))
+	else if (0 == strUrl.Compare("SOF_EncryptFile")
+		||0 == strUrl.Compare("EncryptFile"))
 	{
 		return(SOF_EncryptFileDW2());
 	}
-	else if (0 == strUrl.Compare("SOF_DecryptFile"))
+	else if (0 == strUrl.Compare("SOF_DecryptFile")
+		||0 == strUrl.Compare("DecryptFile"))
 	{
 		return(SOF_DecryptFileDW2());
 	}
-	else if (0 == strUrl.Compare("SOF_PubKeyEncrypt"))
+	else if (0 == strUrl.Compare("SOF_PubKeyEncrypt")
+		||0 == strUrl.Compare("PubKeyEncrypt"))
 	{
 		return(SOF_PubKeyEncryptDW());
 	}
-	else if (0 == strUrl.Compare("SOF_PriKeyDecrypt"))
+	else if (0 == strUrl.Compare("SOF_PriKeyDecrypt")
+		||0 == strUrl.Compare("PriKeyDecrypt"))
 	{
 		return(SOF_PriKeyDecryptDW());
 	}
-	else if (0 == strUrl.Compare("SOF_SignDataByP7"))
+	else if (0 == strUrl.Compare("SOF_SignDataByP7")
+		||0 == strUrl.Compare("SignDataByP7"))
 	{
 		return(SOF_SignDataByP7DW());
 	}
-	else if (0 == strUrl.Compare("SOF_VerifySignedDataByP7"))
+	else if (0 == strUrl.Compare("SOF_VerifySignedDataByP7")
+		||0 == strUrl.Compare("VerifySignedDataByP7"))
 	{
 		return(SOF_VerifySignedDataByP7DW());
 	}
-	else if (0 == strUrl.Compare("SOF_GetP7SignDataInfo"))
+	else if (0 == strUrl.Compare("SOF_GetP7SignDataInfo")
+		||0 == strUrl.Compare("GetP7SignDataInfo"))
 	{
 		return(SOF_GetP7SignDataInfoDW());
 	}
-	else if (0 == strUrl.Compare("SOF_SignDataXML"))
+	else if (0 == strUrl.Compare("SOF_SignDataXML")
+		||0 == strUrl.Compare("SignDataXML"))
 	{
 		return(SOF_SignDataXMLDW());
 	}
-	else if (0 == strUrl.Compare("SOF_VerifySignedDataXML"))
+	else if (0 == strUrl.Compare("SOF_VerifySignedDataXML")
+		||0 == strUrl.Compare("VerifySignedDataXML"))
 	{
 		return(SOF_VerifySignedDataXMLDW());
 	}
-	else if (0 == strUrl.Compare("SOF_GetXMLSignatureInfo"))
+	else if (0 == strUrl.Compare("SOF_GetXMLSignatureInfo")
+		||0 == strUrl.Compare("GetXMLSignatureInfo"))
 	{
 		return(SOF_GetXMLSignatureInfoDW());
 	}
-	else if (0 == strUrl.Compare("SOF_CheckSupport"))
+	else if (0 == strUrl.Compare("SOF_CheckSupport")
+		||0 == strUrl.Compare("CheckSupport"))
 	{
 		return(SOF_CheckSupportDW());
 	}
-	else if (0 == strUrl.Compare("SOF_GenRandom"))
+	else if (0 == strUrl.Compare("SOF_GenRandom")
+		||0 == strUrl.Compare("GenRandom"))
 	{
 		return(SOF_GenRandomDW());
 	}
-	else if (0 == strUrl.Compare("SOF_GetInstance"))
+	else if (0 == strUrl.Compare("SOF_GetInstance")
+		||0 == strUrl.Compare("GetInstance"))
 	{
 		return(SOF_GetInstanceDW());
 	}
@@ -334,18 +367,27 @@ int CParserPostMsg::DealwithSetSignMethod()
 	}
 
 	m_nSignMethod = m_inRoot["SignMethod"].asInt();
-
-	ns1__SOF_USCORESetSignMethod sofRequest;
 	std::string szResp;
+	int nReturn_ = -1;
 
-	std::string szToken("9877654433");
-	//sofRequest.tokenId = &szToken;
-	sofRequest.signMethod = m_nSignMethod;
+	if (0 == m_strUrl.Compare("SetSignMethod"))
+	{
+		nReturn_ = m_PSDM.PostHttpPage(SD_SETSIGNMETHOD,m_inRoot,szResp);
+		if (0 == nReturn_)
+		{
+			nReturn_ =m_PSDM.DealWithRecvMsg("result",szResp);
+		}
+	}
+	else
+	{
+		ns1__SOF_USCORESetSignMethod sofRequest;
+		sofRequest.signMethod = m_nSignMethod;
+		LOG_INFO("SOF_SetSignMethod:sofRequest.signMethod=%d",sofRequest.signMethod);
+		nReturn_ = soapSender::SOF_SetSignMethod(sofRequest, szResp);
+	}
 
-	LOG_INFO("SOF_SetSignMethod:sofRequest.signMethod=%d",sofRequest.signMethod);
 
-
-	int nReturn_ = soapSender::SOF_SetSignMethod(sofRequest, szResp);
+	
 	if (0 == nReturn_)
 	{
 		Json::Value jsVal;
@@ -403,17 +445,27 @@ int CParserPostMsg::SOF_SetEncryptMethodDW()
 	}
 
 	m_nEncryptMethod = m_inRoot["EncryptMethod"].asInt();
-
-	ns1__SOF_USCORESetEncryptMethod sofRequest;
 	std::string szResp;
+	int nReturn_ = -1;
 
-	std::string szToken("9877654433");
-	//sofRequest.tokenId = &szToken;
-	sofRequest.encryptMethod = m_nEncryptMethod;
 
-	LOG_INFO("SOF_SetEncryptMethod:sofRequest.encryptMethod=%d",sofRequest.encryptMethod);
+	if (0 == m_strUrl.Compare("SetEncryptMethod"))
+	{
+		nReturn_ = m_PSDM.PostHttpPage(SD_SETENCRYPTMETHOD,m_inRoot,szResp);
+		if (0 == nReturn_)
+		{
+			nReturn_ =m_PSDM.DealWithRecvMsg("result",szResp);
+		}
+	}
+	else
+	{
+		ns1__SOF_USCORESetEncryptMethod sofRequest;
+		sofRequest.encryptMethod = m_nEncryptMethod;
+		LOG_INFO("SOF_SetEncryptMethod:sofRequest.encryptMethod=%d",sofRequest.encryptMethod);
+		nReturn_ = soapSender::SOF_SetEncryptMethod(sofRequest, szResp);
+	}
 
-	int nReturn_ = soapSender::SOF_SetEncryptMethod(sofRequest, szResp);
+	
 	if (0 == nReturn_)
 	{
 		Json::Value jsVal;
@@ -434,11 +486,6 @@ int CParserPostMsg::SOF_SetEncryptMethodDW()
 
 int CParserPostMsg::SOF_GetEncryptMethodDW()
 {
-	/*if (0 != m_strTokenId.Compare(g_strTokenId))
-	{
-		DealwithError("Please before login");
-		return 1;
-	}*/
 	Json::Value jsVal;
 	
 	jsVal["EncryptMethod"]=m_nEncryptMethod;
@@ -703,32 +750,37 @@ int CParserPostMsg::SOF_GetCertInfoDW()
 
 
 	std::string szCert = m_inRoot["Cert"].asString();
-	
 	int nType = m_inRoot["Type"].asInt();
-
-
-	ns1__SOF_USCOREGetCertInfo sofRequest;
 	std::string szResp;
+	int nReturn_ = -1;
 
-	std::string szToken("9877654433");
-	//sofRequest.tokenId = &szToken;
-	sofRequest.base64EncodeCert = &szCert;
-	sofRequest.type = nType;
-	LOG_INFO("SOF_GetCertInfo:sofRequest.base64EncodeCert=%s,\r\nsofRequest.type=%d",
-		sofRequest.base64EncodeCert->c_str(),
-		sofRequest.type);
 
-	int nReturn_ = soapSender::SOF_GetCertInfo(sofRequest, szResp);
+	if (0 == m_strUrl.Compare("GetCertInfo"))
+	{
+		nReturn_ = m_PSDM.PostHttpPage(SD_GETCERTINFO,m_inRoot,szResp);
+		if (0 == nReturn_)
+		{
+			nReturn_ =m_PSDM.DealWithRecvMsg("result",szResp);
+		}
+	}
+	else
+	{
+		ns1__SOF_USCOREGetCertInfo sofRequest;
+		sofRequest.base64EncodeCert = &szCert;
+		sofRequest.type = nType;
+		LOG_INFO("SOF_GetCertInfo:sofRequest.base64EncodeCert=%s,\r\nsofRequest.type=%d",
+			sofRequest.base64EncodeCert->c_str(),
+			sofRequest.type);
+
+		nReturn_ = soapSender::SOF_GetCertInfo(sofRequest, szResp);
+	}
+
+
+	
 	if (0 == nReturn_)
 	{
-
-		//CEnDecodeClass::Utf2Gbk(szResp);
-
-	//	LOG_INFO("SOF_GetCertInfoDW::szResp=%s",szResp.c_str());
 		Base64 bs64;
-
 		std::string szTmp = bs64.base64_decode(szResp);
-
 		CEnDecodeClass::Utf2Gbk(szTmp);
 
 		Json::Value jsVal;
@@ -748,23 +800,6 @@ int CParserPostMsg::SOF_GetCertInfoDW()
 		return 1;
 
 	}
-
-
-	//int     len = szCert.length();
-	//unsigned char* pBuf = new unsigned char[len+1];
-	//memset(pBuf, 0, len+1);
-	//int nbaseLen = Base64Decode(pBuf, szCert.c_str());
-
-	//CCSPCertificate cspCert;
-	//cspCert._DecodeX509Cert(pBuf,nbaseLen);
-
-	////得到使用者
-	//char lpValue[500] = {0};
-	//ULONG ulLen = 500;
-	//cspCert.get_SubjectName(lpValue,&ulLen);
-
-
-
 }
 
 int CParserPostMsg::SOF_GetCertInfoByOidDW()
@@ -778,21 +813,30 @@ int CParserPostMsg::SOF_GetCertInfoByOidDW()
 	std::string szCert = m_inRoot["Cert"].asString();
 	std::string szOid = m_inRoot["Oid"].asString();
 
-	ns1__SOF_USCOREGetCertInfoByOid sofRequest;
 	std::string szResp;
-
-	std::string szToken("9877654433");
-	//sofRequest.tokenId = &szToken;
-	sofRequest.base64EncodeCert = &szCert;
-	sofRequest.oid = &szOid;
-
-	LOG_INFO("SOF_GetCertInfoByOid:sofRequest.base64EncodeCert=%s,\r\nsofRequest.oid=%s",
-		sofRequest.base64EncodeCert->c_str(),
-		sofRequest.oid->c_str());
+	int nReturn_ = -1;
 
 
+	if (0 == m_strUrl.Compare("GetCertInfoByOid"))
+	{
+		nReturn_ = m_PSDM.PostHttpPage(SD_GETCERTINFOBYOID,m_inRoot,szResp);
+		if (0 == nReturn_)
+		{
+			nReturn_ =m_PSDM.DealWithRecvMsg("result",szResp);
+		}
+	}
+	else
+	{
+		ns1__SOF_USCOREGetCertInfoByOid sofRequest;
+		sofRequest.base64EncodeCert = &szCert;
+		sofRequest.oid = &szOid;
+		LOG_INFO("SOF_GetCertInfoByOid:sofRequest.base64EncodeCert=%s,\r\nsofRequest.oid=%s",
+			sofRequest.base64EncodeCert->c_str(),
+			sofRequest.oid->c_str());
+		nReturn_ = soapSender::SOF_GetCertInfoByOid(sofRequest, szResp);
+	}
 
-	int nReturn_ = soapSender::SOF_GetCertInfoByOid(sofRequest, szResp);
+	
 	if (0 == nReturn_)
 	{
 		Json::Value jsVal;
@@ -987,21 +1031,34 @@ int CParserPostMsg::SOF_ValidateCertDW()
 
 	std::string szCert = m_inRoot["Cert"].asString();
 
-
-
-	ns1__SOF_USCOREValidateCert sofRequest;
+	std::string szResp;
+	int nReturn_ = -1;
 	int nResp = 0;
 
-	std::string szToken("9877654433");
-	//sofRequest.tokenId = &szToken;
-	sofRequest.base64EncodeCert = &szCert;
 
-	LOG_INFO("SOF_ValidateCert:sofRequest.base64EncodeCert=%s",
-		sofRequest.base64EncodeCert->c_str());
+	if (0 == m_strUrl.Compare("ValidateCert"))
+	{
+		nReturn_ = m_PSDM.PostHttpPage(SD_VALIDDATECERT,m_inRoot,szResp);
+		if (0 == nReturn_)
+		{
+			nReturn_ =m_PSDM.DealWithRecvMsg("result",szResp);
+			if (0 == nReturn_)
+			{
+				nResp = atoi(szResp.c_str());
+			}
+		}
+	}
+	else
+	{
+		ns1__SOF_USCOREValidateCert sofRequest;
+		sofRequest.base64EncodeCert = &szCert;
+		LOG_INFO("SOF_ValidateCert:sofRequest.base64EncodeCert=%s",
+			sofRequest.base64EncodeCert->c_str());
+		nReturn_ = soapSender::SOF_ValidateCert(sofRequest, nResp);
+	}
 
 
-
-	int nReturn_ = soapSender::SOF_ValidateCert(sofRequest, nResp);
+	
 	if (1 == nResp)
 	{
 		Json::Value jsVal;
@@ -1266,20 +1323,43 @@ int CParserPostMsg::SOF_VerifySignedDataDW()
 	std::string szInData = m_inRoot["InData"].asString();
 	std::string szSignValue = m_inRoot["SignValue"].asString();
 
-	ns1__SOF_USCOREVerifySignedData sofRequest;
+	std::string szResp;
+	int nReturn_ = -1;
+	int nResp = 0;
 	BOOL bResp = FALSE;
 
-	std::string szToken("9877654433");
-	//sofRequest.tokenId = &szToken;
 
-	sofRequest.inData = &szInData;
-	sofRequest.signValue = &szSignValue;
-	sofRequest.base64EncodeCert =&szCert;
+	if (0 == m_strUrl.Compare("VerifySignedData"))
+	{
+		nReturn_ = m_PSDM.PostHttpPage(SD_VERIFYSIGNEDDATA,m_inRoot,szResp);
+		if (0 == nReturn_)
+		{
+			nReturn_ =m_PSDM.DealWithRecvMsg("result",szResp);
+			if (0 == nReturn_)
+			{
+				nResp = atoi(szResp.c_str());
+				if (0 == nResp)
+				{
+					bResp = FALSE;
+				}
+				else
+				{
+					bResp = TRUE;
+				}
+			}
+		}
+	}
+	else
+	{
+		ns1__SOF_USCOREVerifySignedData sofRequest;
+		sofRequest.inData = &szInData;
+		sofRequest.signValue = &szSignValue;
+		sofRequest.base64EncodeCert =&szCert;
+		LOG_INFO("soapSender::SOF_VerifySignedData");
+		nReturn_ = soapSender::SOF_VerifySignedData(sofRequest, bResp);
+	}
 
-	LOG_INFO("soapSender::SOF_VerifySignedData");
-	int nReturn_ = soapSender::SOF_VerifySignedData(sofRequest, bResp);
-
-	std::string szResp;
+	
 	if (bResp)
 	{
 		Json::Value jsVal;
@@ -1340,21 +1420,48 @@ int CParserPostMsg::SOF_VerifySignedFileDW()
 		return 1;
 	}
 
-
-	ns1__SOF_USCOREVerifySignedData sofRequest;
-	BOOL bResp = FALSE;
-
-	std::string szToken("9877654433");
-	//sofRequest.tokenId = &szToken;
-
-	sofRequest.inData = &szInData;
-	sofRequest.signValue = &szSignValue;
-	sofRequest.base64EncodeCert =&szCert;
-
-	LOG_INFO("soapSender::SOF_VerifySignedData");
-	int nReturn_ = soapSender::SOF_VerifySignedData(sofRequest, bResp);
+	if("VerifySignedFile" == m_strUrl)
+	{
+		m_inRoot["inData"] = szInData;
+	}
 
 	std::string szResp;
+	int nReturn_ = -1;
+	int nResp = 0;
+	BOOL bResp = FALSE;
+
+
+	if (0 == m_strUrl.Compare("VerifySignedData"))
+	{
+		nReturn_ = m_PSDM.PostHttpPage(SD_VERIFYSIGNEDDATA,m_inRoot,szResp);
+		if (0 == nReturn_)
+		{
+			nReturn_ =m_PSDM.DealWithRecvMsg("result",szResp);
+			if (0 == nReturn_)
+			{
+				nResp = atoi(szResp.c_str());
+				if (0 == nResp)
+				{
+					bResp = FALSE;
+				}
+				else
+				{
+					bResp = TRUE;
+				}
+			}
+		}
+	}
+	else
+	{
+		ns1__SOF_USCOREVerifySignedData sofRequest;
+		sofRequest.inData = &szInData;
+		sofRequest.signValue = &szSignValue;
+		sofRequest.base64EncodeCert =&szCert;
+
+		LOG_INFO("soapSender::SOF_VerifySignedData");
+		nReturn_ = soapSender::SOF_VerifySignedData(sofRequest, bResp);
+	}
+
 	if (bResp)
 	{
 		Json::Value jsVal;
@@ -1381,8 +1488,6 @@ int CParserPostMsg::SOF_EncryptDataDWLoc()
 	memset(pbInData, 0, nInlen+1);
 
 	return 0;
-
-
 
 }
 
@@ -1502,7 +1607,7 @@ int CParserPostMsg::SOF_EncryptDataDW2()
 
 
 
-int CParserPostMsg::SOF_EncryptDataDW()
+int CParserPostMsg::SOF_EncryptDataDW()//---改为本地加密，该函数废弃
 {
 	if (!m_bSetIP)
 	{
@@ -1644,7 +1749,7 @@ int CParserPostMsg::SOF_DecryptDataDW2()
 
 }
 
-int CParserPostMsg::SOF_DecryptDataDW()
+int CParserPostMsg::SOF_DecryptDataDW()//---改为本地解密，该函数废弃
 {
 	if (!m_bSetIP)
 	{
@@ -1720,7 +1825,7 @@ int CParserPostMsg::SOF_EncryptFileDW2()
 	
 }
 
-int CParserPostMsg::SOF_EncryptFileDW()
+int CParserPostMsg::SOF_EncryptFileDW()//---改为本地加密，该函数废弃
 {
 
 	if (!m_bSetIP)
@@ -1815,7 +1920,7 @@ int CParserPostMsg::SOF_DecryptFileDW2()
 
 	
 }
-int CParserPostMsg::SOF_DecryptFileDW()
+int CParserPostMsg::SOF_DecryptFileDW()//---改为本地解密，该函数废弃
 {
 	if (!m_bSetIP)
 	{
@@ -2086,7 +2191,7 @@ int CParserPostMsg::SOF_PriKeyDecryptDW()
 
 
 	}
-	else//sm2暂时没有实现--xzt
+	else//
 	{
 		CPinDlg dlg;
 		if (IDOK == dlg.DoModal())
@@ -2311,10 +2416,6 @@ int CParserPostMsg::SOF_SignDataByP7DW()
 			free(pbSignedMessageBlob);
 		return 0;
 	}
-
-	
-
-
 }
 int CParserPostMsg::SOF_VerifySignedDataByP7DW()
 {
@@ -2325,16 +2426,40 @@ int CParserPostMsg::SOF_VerifySignedDataByP7DW()
 	}
 
 	std::string szP7Data = m_inRoot["P7Data"].asString();
+	std::string szResp;
+	int nReturn_ = -1;
+	int nResp = 0;
+	BOOL bResp = FALSE;
 
-	ns1__SOF_USCOREVerifySignedDataByP7 sofRequest;
-	BOOL bResp;
 
-	std::string szToken("9877654433");
-	//sofRequest.tokenId = &szToken;
-	sofRequest.pkcs7SignData =&szP7Data;
-	LOG_INFO("SOF_VerifySignedDataByP7:sofRequest.pkcs7SignData=%s",sofRequest.pkcs7SignData->c_str());
+	if (0 == m_strUrl.Compare("VerifySignedDataByP7"))
+	{
+		nReturn_ = m_PSDM.PostHttpPage(SD_VERIFYSIGNEDDATABYP7,m_inRoot,szResp);
+		if (0 == nReturn_)
+		{
+			nReturn_ =m_PSDM.DealWithRecvMsg("result",szResp);
+			if (0 == nReturn_)
+			{
+				nResp = atoi(szResp.c_str());
+				if (0 == nResp)
+				{
+					bResp = FALSE;
+				}
+				else
+				{
+					bResp = TRUE;
+				}
+			}
+		}
+	}
+	else
+	{
+		ns1__SOF_USCOREVerifySignedDataByP7 sofRequest;
+		sofRequest.pkcs7SignData =&szP7Data;
+		LOG_INFO("SOF_VerifySignedDataByP7:sofRequest.pkcs7SignData=%s",sofRequest.pkcs7SignData->c_str());
+		nReturn_ = soapSender::SOF_VerifySignedDataByP7(sofRequest, bResp);
+	}
 
-	int nReturn_ = soapSender::SOF_VerifySignedDataByP7(sofRequest, bResp);
 	if (bResp)
 	{
 		Json::Value jsVal;
@@ -2350,8 +2475,6 @@ int CParserPostMsg::SOF_VerifySignedDataByP7DW()
 		DealwithError("VerifySignedDataByP7 data failed");
 		return 1;
 	}
-
-	return 1;
 }
 int CParserPostMsg::SOF_GetP7SignDataInfoDW()
 {
@@ -2369,19 +2492,29 @@ int CParserPostMsg::SOF_GetP7SignDataInfoDW()
 
 	std::string szP7Data = m_inRoot["P7Data"].asString();
 	int nType = m_inRoot["type"].asInt();
-
-	ns1__SOF_USCOREGetP7SignDataInfo sofRequest;
 	std::string szResp;
+	int nReturn_ = -1;
 
-	std::string szToken("9877654433");
-	//sofRequest.tokenId = &szToken;
-	sofRequest.pkcs7SignData =&szP7Data;
-	sofRequest.type =nType;
 
-	LOG_INFO("SOF_GetP7SignDataInfo:sofRequest.pkcs7SignData=%s,sofRequest.type=%d",sofRequest.pkcs7SignData->c_str(),
-		sofRequest.type);
+	if (0 == m_strUrl.Compare("GetP7SignDataInfo"))
+	{
+		nReturn_ = m_PSDM.PostHttpPage(SD_GETP7SIGNDATAINFO,m_inRoot,szResp);
+		if (0 == nReturn_)
+		{
+			nReturn_ =m_PSDM.DealWithRecvMsg("result",szResp);
+		}
+	}
+	else
+	{
+		ns1__SOF_USCOREGetP7SignDataInfo sofRequest;
+		sofRequest.pkcs7SignData =&szP7Data;
+		sofRequest.type =nType;
+		LOG_INFO("SOF_GetP7SignDataInfo:sofRequest.pkcs7SignData=%s,sofRequest.type=%d",sofRequest.pkcs7SignData->c_str(),
+			sofRequest.type);
+		nReturn_ = soapSender::SOF_GetP7SignDataInfo(sofRequest, szResp);
+	}
 
-	int nReturn_ = soapSender::SOF_GetP7SignDataInfo(sofRequest, szResp);
+	
 	if (0 == nReturn_)
 	{
 
@@ -2390,6 +2523,7 @@ int CParserPostMsg::SOF_GetP7SignDataInfoDW()
 		jsVal["Data"] = szResp;
 		jsVal["resultCode"] = "0";
 		SendResp(jsVal.toStyledString());
+		return 0;
 	}
 	else
 	{
@@ -2399,9 +2533,6 @@ int CParserPostMsg::SOF_GetP7SignDataInfoDW()
 		DealwithError("GetP7SignDataInfo data failed");
 		return 1;
 	}
-
-
-	return 1;
 }
 std::string g_szTest;
 int CParserPostMsg::SOF_SignDataXMLDW()
@@ -2504,22 +2635,41 @@ int CParserPostMsg::SOF_VerifySignedDataXMLDW()
 	}
 
 	std::string szInData = m_inRoot["InData"].asString();
-	//CEnDecodeClass::Gbk2Utf(szInData);
-	
-	//szInData = g_szTest;
-
-	//ReadFileInfo("D:\\x.txt",szInData);
-
-	ns1__SOF_USCOREVerifySignedDataXML sofRequest;
+	std::string szResp;
+	int nReturn_ = -1;
+	int nResp = 0;
 	BOOL bResp = FALSE;
 
-	std::string szToken("9877654433");
-	//sofRequest.tokenId = &szToken;
-	sofRequest.inData =&szInData;
 
-	LOG_INFO("SOF_VerifySignedDataXML:sofRequest.inData=%s", sofRequest.inData->c_str());
+	if (0 == m_strUrl.Compare("VerifySignedDataXML"))
+	{
+		nReturn_ = m_PSDM.PostHttpPage(SD_VERIFYSIGNEDDATAXML,m_inRoot,szResp);
+		if (0 == nReturn_)
+		{
+			nReturn_ =m_PSDM.DealWithRecvMsg("result",szResp);
+			if (0 == nReturn_)
+			{
+				nResp = atoi(szResp.c_str());
+				if (0 == nResp)
+				{
+					bResp = FALSE;
+				}
+				else
+				{
+					bResp = TRUE;
+				}
+			}
+		}
+	}
+	else
+	{
+		ns1__SOF_USCOREVerifySignedDataXML sofRequest;
+		sofRequest.inData =&szInData;
+		LOG_INFO("SOF_VerifySignedDataXML:sofRequest.inData=%s", sofRequest.inData->c_str());
+		nReturn_ = soapSender::SOF_VerifySignedDataXML(sofRequest, bResp);
+	}
 
-	int nReturn_ = soapSender::SOF_VerifySignedDataXML(sofRequest, bResp);
+	
 	if (bResp)
 	{
 		Json::Value jsVal;
@@ -2551,21 +2701,29 @@ int CParserPostMsg::SOF_GetXMLSignatureInfoDW()
 
 	std::string szXMLSignedData = m_inRoot["XMLSignedData"].asString();
 	int nType = m_inRoot["type"].asInt();
-
-	//ReadFileInfo("D:\\x.txt",szXMLSignedData);
-	
-	ns1__SOF_USCOREGetXMLSignatureInfo sofRequest;
 	std::string szResp;
+	int nReturn_ = -1;
 
-	std::string szToken("9877654433");
-	//sofRequest.tokenId = &szToken;
-	sofRequest.XMLSignedData =&szXMLSignedData;
-	sofRequest.type = nType;
+	if (0 == m_strUrl.Compare("GetXMLSignatureInfo"))
+	{
+		nReturn_ = m_PSDM.PostHttpPage(SD_GETXMLSIGNTUREINFO,m_inRoot,szResp);
+		if (0 == nReturn_)
+		{
+			nReturn_ =m_PSDM.DealWithRecvMsg("result",szResp);
+		}
+	}
+	else
+	{
+		//ReadFileInfo("D:\\x.txt",szXMLSignedData);
+		ns1__SOF_USCOREGetXMLSignatureInfo sofRequest;
+		sofRequest.XMLSignedData =&szXMLSignedData;
+		sofRequest.type = nType;
+		LOG_INFO("SOF_GetXMLSignatureInfo:sofRequest.XMLSignedData=%s,sofRequest.type=%d",sofRequest.XMLSignedData->c_str(),
+			sofRequest.type);
+		nReturn_ = soapSender::SOF_GetXMLSignatureInfo(sofRequest, szResp);
+	}
 
-	LOG_INFO("SOF_GetXMLSignatureInfo:sofRequest.XMLSignedData=%s,sofRequest.type=%d",sofRequest.XMLSignedData->c_str(),
-		sofRequest.type);
-
-	int nReturn_ = soapSender::SOF_GetXMLSignatureInfo(sofRequest, szResp);
+	
 	if (0 == nReturn_)
 	{
 		Json::Value jsVal;
@@ -2642,19 +2800,28 @@ int CParserPostMsg::SOF_GenRandomDW()
 	//	return 1;
 	//}
 
-
-
-
-	ns1__SOF_USCOREGenRandom sofRequest;
 	std::string szResp;
+	int nReturn_ = -1;
 
-	std::string szToken("9877654433");
-	//sofRequest.tokenId = &szToken;
-	sofRequest.len= nLen;
+	if (0 == m_strUrl.Compare("GenRandom"))
+	{
+		nReturn_ = m_PSDM.PostHttpPage(SD_GENRANDOM,m_inRoot,szResp);
+		if (0 == nReturn_)
+		{
+			nReturn_ =m_PSDM.DealWithRecvMsg("result",szResp);
+		}
+	}
+	else
+	{
+		ns1__SOF_USCOREGenRandom sofRequest;
+		sofRequest.len= nLen;
+		LOG_INFO("SOF_USCOREGenRandom:len=%d", sofRequest.len);
+		nReturn_ = soapSender::SOF_USCOREGenRandom(sofRequest, szResp);
+	}
 
-	LOG_INFO("SOF_USCOREGenRandom:tokenId=%s,len=%d", szToken.c_str(),sofRequest.len);
 
-	int nReturn_ = soapSender::SOF_USCOREGenRandom(sofRequest, szResp);
+
+	
 	if (0 == nReturn_)
 	{
 		Json::Value jsVal;
@@ -2861,16 +3028,29 @@ int CParserPostMsg::SOF_GetInstanceDW()
 	}
 	std::string szAppName = m_inRoot["appName"].asString();
 
-	ns1__SOF_USCOREGetInstance sofRequest;
+	
 	std::string szResp;
+	int nReturn_ = -1;
+	int nResp = 0;
+	BOOL bResp = FALSE;
 
-	std::string szToken("9877654433");
-	//sofRequest.tokenId = &szToken;
-	sofRequest.appName= &szAppName;
 
-	LOG_INFO("SOF_USCOREGetInstance:AppName=%s",sofRequest.appName->c_str());
+	if (0 == m_strUrl.Compare("GetInstance"))
+	{
+		nReturn_ = m_PSDM.PostHttpPage(SD_GETINSTANCE,m_inRoot,szResp);
+		if (0 == nReturn_)
+		{
+			nReturn_ =m_PSDM.DealWithRecvMsg("webAPPName",szResp);
+		}
+	}
+	else
+	{
+		ns1__SOF_USCOREGetInstance sofRequest;
+		sofRequest.appName= &szAppName;
+		LOG_INFO("SOF_USCOREGetInstance:AppName=%s",sofRequest.appName->c_str());
+		nReturn_ = soapSender::SOF_USCOREGetInstance(sofRequest,szResp);
+	}
 
-	int nReturn_ = soapSender::SOF_USCOREGetInstance(sofRequest,szResp);
 	if (0 == nReturn_)
 	{
 
@@ -2906,6 +3086,9 @@ int CParserPostMsg::SetServerDW()
 	int nPort = m_inRoot["nPort"].asInt();
 	std::string szIP = m_inRoot["sServer"].asString();
 	soapSender::SetServerInfo(szIP,nPort);
+
+	m_PSDM.m_nPort = nPort;
+	m_PSDM.m_szHostName = szIP;
 
 	Json::Value jsVal;
 	jsVal["resultCode"] = "0";

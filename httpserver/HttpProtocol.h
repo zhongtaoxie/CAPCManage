@@ -12,21 +12,21 @@
 #define METHOD_HEAD 1
 
 
-#define HTTP_STATUS_OK				"200 OK"
-#define HTTP_STATUS_CREATED			"201 Created"
-#define HTTP_STATUS_ACCEPTED		"202 Accepted"
-#define HTTP_STATUS_NOCONTENT		"204 No Content"
-#define HTTP_STATUS_MOVEDPERM		"301 Moved Permanently"
-#define HTTP_STATUS_MOVEDTEMP		"302 Moved Temporarily"
-#define HTTP_STATUS_NOTMODIFIED		"304 Not Modified"
-#define HTTP_STATUS_BADREQUEST		"400 Bad Request"
-#define HTTP_STATUS_UNAUTHORIZED	"401 Unauthorized"
-#define HTTP_STATUS_FORBIDDEN		"403 Forbidden"
-#define HTTP_STATUS_NOTFOUND		"404 File can not fonund!"
-#define HTTP_STATUS_SERVERERROR		"500 Internal Server Error"
-#define HTTP_STATUS_NOTIMPLEMENTED	"501 Not Implemented"
-#define HTTP_STATUS_BADGATEWAY		"502 Bad Gateway"
-#define HTTP_STATUS_UNAVAILABLE		"503 Service Unavailable"
+#define HTTP_STATUS_OK2				"200 OK"
+#define HTTP_STATUS_CREATED2			"201 Created"
+#define HTTP_STATUS_ACCEPTED2		"202 Accepted"
+#define HTTP_STATUS_NOCONTENT2		"204 No Content"
+#define HTTP_STATUS_MOVEDPERM2		"301 Moved Permanently"
+#define HTTP_STATUS_MOVEDTEMP2		"302 Moved Temporarily"
+#define HTTP_STATUS_NOTMODIFIED2		"304 Not Modified"
+#define HTTP_STATUS_BADREQUEST2		"400 Bad Request"
+#define HTTP_STATUS_UNAUTHORIZED2	"401 Unauthorized"
+#define HTTP_STATUS_FORBIDDEN2		"403 Forbidden"
+#define HTTP_STATUS_NOTFOUND2		"404 File can not fonund!"
+#define HTTP_STATUS_SERVERERROR2		"500 Internal Server Error"
+#define HTTP_STATUS_NOTIMPLEMENTED2	"501 Not Implemented"
+#define HTTP_STATUS_BADGATEWAY2		"502 Bad Gateway"
+#define HTTP_STATUS_UNAVAILABLE2		"503 Service Unavailable"
 
 
 // 连接的Client的信息

@@ -407,7 +407,7 @@ int  CHttpProtocol::Analyze(PREQUEST pReq, LPBYTE pBuf)
 	// 防止非法请求
 	if (strstr((const char *)pBuf, "..") != NULL)
 	{
-		strcpy(pReq->StatuCodeReason, HTTP_STATUS_BADREQUEST);
+		strcpy(pReq->StatuCodeReason, HTTP_STATUS_BADREQUEST2);
 		return 1;
 	}
 
@@ -423,7 +423,7 @@ int  CHttpProtocol::Analyze(PREQUEST pReq, LPBYTE pBuf)
 	}
 	else  
 	{
-        strcpy(pReq->StatuCodeReason, HTTP_STATUS_NOTIMPLEMENTED);
+        strcpy(pReq->StatuCodeReason, HTTP_STATUS_NOTIMPLEMENTED2);
 		return 1;
 	}
     
@@ -431,7 +431,7 @@ int  CHttpProtocol::Analyze(PREQUEST pReq, LPBYTE pBuf)
 	cpToken = strtok(NULL, szSeps);
 	if (cpToken == NULL)   
 	{
-		strcpy(pReq->StatuCodeReason, HTTP_STATUS_BADREQUEST);
+		strcpy(pReq->StatuCodeReason, HTTP_STATUS_BADREQUEST2);
 		return 1;
 	}
 
@@ -473,7 +473,7 @@ void CHttpProtocol::SendHeader(PREQUEST pReq)
  	GetContenType(pReq, (char*)ContenType);
 
 	sprintf((char*)Header, "HTTP/1.0 %s\r\nDate: %s\r\nServer: %s\r\nContent-Type: %s\r\nContent-Length: %d\r\nLast-Modified: %s\r\n\r\n",
-			                    HTTP_STATUS_OK, 
+			                    HTTP_STATUS_OK2, 
 								curTime,				// Date
 								"My Http Server",       // Server
 								ContenType,				// Content-Type
@@ -503,7 +503,7 @@ void CHttpProtocol::SendLoginResp(PREQUEST pReq,std::string szResp)
 
 
 	sprintf((char*)msg, "HTTP/1.0 %s\r\nDate: %s\r\nServer: %s\r\nContent-Type: %s\r\nContent-Length: %d\r\n\r\n%s",
-		HTTP_STATUS_OK, 
+		HTTP_STATUS_OK2, 
 		curTime,				// Date
 		"My Http Server",       // Server
 		ContenType,				// Content-Type
@@ -525,7 +525,7 @@ int CHttpProtocol::FileExist(PREQUEST pReq)
 	// 如果文件不存在，则返回出错信息
 	if (pReq->hFile == INVALID_HANDLE_VALUE)
 	{
-		strcpy(pReq->StatuCodeReason, HTTP_STATUS_NOTFOUND);
+		strcpy(pReq->StatuCodeReason, HTTP_STATUS_NOTFOUND2);
 		return 0;
 	}
 	else 
@@ -561,7 +561,7 @@ void CHttpProtocol::SendFile(PREQUEST pReq)
 		{	
 			
 	    	static char szMsg[512];
-		    wsprintf(szMsg, "%s", HTTP_STATUS_SERVERERROR);
+		    wsprintf(szMsg, "%s", HTTP_STATUS_SERVERERROR2);
         	// 向客户端发送出错信息
         	send(pReq->Socket, szMsg, strlen(szMsg), 0);	
 	    	break;

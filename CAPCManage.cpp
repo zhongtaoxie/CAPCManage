@@ -30,22 +30,6 @@ CCAPCManageApp::CCAPCManageApp()
 	{
 		CloseHandle(hHandle);
 		ExitProcess(0);
-
-	/*	HWND hWnd = ::FindWindow(NULL, _T("请选择证书"));
-		if (hWnd == NULL)
-		{
-			hWnd = ::FindWindow(NULL, _T("请选择证书"));
-		}
-		if (hWnd)
-		{
-			::ShowWindow(hWnd, SW_SHOW);
-			::SetForegroundWindow(hWnd);
-			::ExitProcess(0);
-		}
-		else
-		{
-			ExitProcess(0);
-		}*/
 	}
 }
 
