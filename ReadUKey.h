@@ -65,7 +65,7 @@ public:
 	ULONG ImportSessionKey_Test(DEVHANDLE hDev,HAPPLICATION hApp);
 
 	ULONG GetApp(DEVHANDLE hDev,HAPPLICATION *phApp,std::string szAppName="");
-	ULONG CheckPin(DEVHANDLE hDev,HAPPLICATION hApp,std::string szPin);
+	ULONG CheckPin(DEVHANDLE hDev,HAPPLICATION hApp,std::string szPin,ULONG& ulRetryCount);
 
 	ULONG GetCertEx(HCONTAINER hContainer, BOOL bSignFlag,  BYTE*& pbCert, ULONG& ulCertLen);
 

@@ -6,7 +6,7 @@
 #include <afxinet.h>
 
 #define  SD_SETSIGNMETHOD       "standard/setSignMethod"
-#define  SD_SETENCRYPTMETHOD    "standard /setEncryptMethod"
+#define  SD_SETENCRYPTMETHOD    "standard/setEncryptMethod"
 #define  SD_GETCERTINFO         "standard/getCertInfo"
 #define  SD_GETCERTINFOBYOID    "standard/getCertInfoByOid"
 #define  SD_VALIDDATECERT        "standard/validateCert"

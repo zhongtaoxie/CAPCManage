@@ -1596,10 +1596,10 @@ ULONG CReadUKey::GetApp(DEVHANDLE hDev,HAPPLICATION *phApp,std::string szAppName
 	return SAR_OK;
 }
 
-ULONG CReadUKey::CheckPin(DEVHANDLE hDev,HAPPLICATION hApp,std::string szPin)
+ULONG CReadUKey::CheckPin(DEVHANDLE hDev,HAPPLICATION hApp,std::string szPin,ULONG& ulRetryCount)
 {
 
-	ULONG rv = SAR_OK,ulRetryCount =0;
+	ULONG rv = SAR_OK;
 
 	rv = m_PSKF_VerifyPIN(hApp,USER_TYPE,(LPSTR)szPin.c_str(),&ulRetryCount);
 	if(rv)

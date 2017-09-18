@@ -636,11 +636,26 @@ int CParserPostMsg::SOF_LoginDW()
 		{
 
 			CReadUKey* pReadUKey = (CReadUKey*)g_pCADlg->m_vecCert[i].m_pReadUkey;
-			int rv = pReadUKey->CheckPin(g_pCADlg->m_vecCert[i].m_hDev,g_pCADlg->m_vecCert[i].m_hApp,szPassWd);
+			ULONG ulRetryCount=0;
+			int rv = pReadUKey->CheckPin(g_pCADlg->m_vecCert[i].m_hDev,g_pCADlg->m_vecCert[i].m_hApp,szPassWd,ulRetryCount);
 			if (rv)
 			{
-				DealwithError("passWd is error");
-				return 1;
+				if (ulRetryCount==0)
+				{
+					Json::Value jsVal;
+					jsVal["resultMsg"] ="passWd is error,You have not more chances.";
+					jsVal["resultCode"] ="-1";
+					SendResp(jsVal.toStyledString());
+					return 1;
+				}
+				else
+				{
+					CString strMsg;
+					strMsg.Format("passWd is error,You have %d more chances.",ulRetryCount);
+					DealwithError(strMsg.GetBuffer());
+					return 1;
+				}
+				
 			}
 			else
 			{
@@ -680,7 +695,9 @@ int CParserPostMsg::SOF_ChangePassWdDW()
 
 	if (rv)
 	{
-		DealwithError("Change password failed");
+		CString strData;
+		strData.Format("Change password failed,you have %d more chances.",ulRetryCount);
+		DealwithError(strData.GetBuffer());
 		return 1;
 	}
 	else
@@ -760,7 +777,17 @@ int CParserPostMsg::SOF_GetCertInfoDW()
 		nReturn_ = m_PSDM.PostHttpPage(SD_GETCERTINFO,m_inRoot,szResp);
 		if (0 == nReturn_)
 		{
-			nReturn_ =m_PSDM.DealWithRecvMsg("result",szResp);
+			std::string szTmp = szResp;
+			nReturn_ =m_PSDM.DealWithRecvMsg("resultCode",szResp);
+			if (0 == nReturn_ && 0 == szResp.compare("0"))
+			{
+				szResp = szTmp;
+				nReturn_ =m_PSDM.DealWithRecvMsg("resultData",szResp);
+			}
+			else
+			{
+				nReturn_ =1;
+			}
 		}
 	}
 	else
@@ -822,7 +849,17 @@ int CParserPostMsg::SOF_GetCertInfoByOidDW()
 		nReturn_ = m_PSDM.PostHttpPage(SD_GETCERTINFOBYOID,m_inRoot,szResp);
 		if (0 == nReturn_)
 		{
-			nReturn_ =m_PSDM.DealWithRecvMsg("result",szResp);
+			std::string szTmp = szResp;
+			nReturn_ =m_PSDM.DealWithRecvMsg("resultCode",szResp);
+			if (0 == nReturn_ && 0 == szResp.compare("0"))
+			{
+				szResp = szTmp;
+				nReturn_ =m_PSDM.DealWithRecvMsg("resultData",szResp);
+			}
+			else
+			{
+				nReturn_ =1;
+			}
 		}
 	}
 	else
@@ -1005,6 +1042,7 @@ int CParserPostMsg::SOF_GetUserInfoDW()
 	default:
 		{
 			DealwithError("unknown type");
+			return -1;
 			break;
 		}
 	}
@@ -1431,7 +1469,7 @@ int CParserPostMsg::SOF_VerifySignedFileDW()
 	BOOL bResp = FALSE;
 
 
-	if (0 == m_strUrl.Compare("VerifySignedData"))
+	if (0 == m_strUrl.Compare("VerifySignedFile"))
 	{
 		nReturn_ = m_PSDM.PostHttpPage(SD_VERIFYSIGNEDDATA,m_inRoot,szResp);
 		if (0 == nReturn_)
@@ -1478,18 +1516,6 @@ int CParserPostMsg::SOF_VerifySignedFileDW()
 
 }
 
-int CParserPostMsg::SOF_EncryptDataDWLoc()
-{
-	std::string szSymmKey = m_inRoot["SymmKey"].asString();
-	std::string szIndata = m_inRoot["Indata"].asString();
-
-	int nInlen = szIndata.length();
-	BYTE* pbInData = new BYTE[nInlen+1];
-	memset(pbInData, 0, nInlen+1);
-
-	return 0;
-
-}
 
 
 int CParserPostMsg::SOF_EncryptDataDWLoc(std::string szSymmKey,std::string szIndata,std::string& szOutdata)
@@ -1584,6 +1610,121 @@ int CParserPostMsg::SOF_EncryptDataDWLoc(std::string szSymmKey,std::string szInd
 	return 0;
 
 }
+
+int CParserPostMsg::SOF_EncryptFileDWLoc(std::string szSymmKey,BYTE* btBuf, long lLen,std::string szInFile)
+{
+	if (szSymmKey.length() !=16)
+	{
+		DealwithError("密钥长度必须是16位");
+		return 1;
+	}
+	DWORD dwRet = 0, dwInDataLen = 0, dwOutDataLen = 0;
+	HANDLE hKey = NULL;
+	BYTE *pbOutData = NULL, *pbInData = NULL;
+	BYTE bKey[0x20] = {0};
+	DWORD dwKeyLen = 0, dwBlockNum = 0;
+	Base64 Base64;
+
+
+
+	//得到KEY
+	//dwKeyLen = strlen(p);
+	memcpy(bKey, szSymmKey.c_str(), 16);
+
+	//得到数据
+
+	dwInDataLen = lLen;
+	pbInData = new BYTE[dwInDataLen+16];
+	memset(pbInData, 0x00, dwInDataLen+16);
+	memcpy(pbInData, btBuf, dwInDataLen);
+
+	if (dwInDataLen%16)
+	{
+		dwBlockNum = dwInDataLen/16;
+		dwBlockNum = dwBlockNum+1;
+		dwInDataLen = dwBlockNum*16;
+	}
+
+
+
+
+	ReadCertInfo* pRCI =GetCertInfo("",TRUE);
+	if (NULL == pRCI)
+	{
+		DealwithError("no find cert");
+		return 1;
+	}
+
+	CReadUKey* pReadUKey = (CReadUKey*)pRCI->m_pReadUkey;
+
+	dwRet = pReadUKey->m_PSKF_SetSymmKey(pRCI->m_hDev, bKey,m_nEncryptMethod, &hKey);
+	if (dwRet)
+	{
+		DealwithError("m_PSKF_SetSymmKey failed");
+		delete []pbInData;
+		return dwRet;
+	}
+
+	BLOCKCIPHERPARAM EncryptParam;
+	memset((char *)&EncryptParam,0x00,sizeof(BLOCKCIPHERPARAM));
+	dwRet = pReadUKey->m_PSKF_EncryptInit(hKey,EncryptParam);
+	if (dwRet)
+	{
+		DealwithError("m_PSKF_EncryptInit failed");
+		delete []pbInData;
+		return dwRet;
+	}
+
+	dwRet = pReadUKey->m_PSKF_Encrypt(hKey, pbInData, dwInDataLen, pbOutData, &dwOutDataLen);
+	if (dwRet)
+	{
+		DealwithError("m_PSKF_Encrypt failed");
+		delete []pbInData;
+		return dwRet;
+	}
+
+	//申请输入数据空间和大小
+	pbOutData = new BYTE[dwOutDataLen+1];
+	memset(pbOutData, 0x00, dwOutDataLen+1);
+	dwRet = pReadUKey->m_PSKF_Encrypt(hKey, pbInData, dwInDataLen, pbOutData, &dwOutDataLen);
+	if (dwRet)
+	{
+		DealwithError("m_PSKF_Encrypt failed");
+		delete []pbOutData;
+		delete []pbInData;
+		return dwRet;
+	}
+
+	std::string szOutdata = Base64.base64_encode(pbOutData,dwOutDataLen);
+
+
+	FILE    *fp;
+	fp=fopen(szInFile.c_str() ,"wb+");
+	if(!fp)
+	{
+		DealwithError("m_PSKF_Encrypt failed");
+		delete []pbOutData;
+		delete []pbInData;
+		return -1;
+	}
+
+	int len = fwrite(szOutdata.c_str(), 1,szOutdata.length() ,fp);
+	fclose(fp);
+
+	Json::Value jsVal;
+	jsVal["resultCode"] = "0";
+	SendResp(jsVal.toStyledString());
+
+
+	delete []pbOutData;
+	delete []pbInData;
+
+	return 0;
+
+}
+
+
+
 
 int CParserPostMsg::SOF_EncryptDataDW2()
 {
@@ -1729,6 +1870,139 @@ int CParserPostMsg::SOF_DecryptDataDWLoc(std::string szSymmKey,std::string szInd
 
 }
 
+int CParserPostMsg::SOF_DecryptFileDWLoc(std::string szSymmKey,std::string szIndata,std::string szInFile)
+{
+	if (szSymmKey.length() !=16)
+	{
+		DealwithError("密钥长度必须是16位");
+		return 1;
+	}
+
+	DWORD dwRet = 0, dwInDataLen = 0, dwOutDataLen = 0;
+	HANDLE hKey = NULL;
+	DWORD dwBaseLen = 0;
+	BYTE *bOutData = NULL, *bBase = NULL;
+
+
+
+
+	//得到解密密钥
+	BYTE bKey[0x40] = {0};
+	memcpy(bKey, szSymmKey.c_str(), 16);
+
+	//得到base64解密后的数据
+	dwInDataLen = szIndata.length();
+	bBase = new BYTE[dwInDataLen];
+	memset(bBase, 0x00, dwInDataLen);
+	dwBaseLen = Base64Decode(bBase,szIndata.c_str());
+
+	//得到第一个证书
+	ReadCertInfo* pRCI =GetCertInfo("",TRUE);
+	if (NULL == pRCI)
+	{
+		DealwithError("no find cert");
+		return 1;
+	}
+
+	CReadUKey* pReadUKey = (CReadUKey*)pRCI->m_pReadUkey;
+	dwRet = pReadUKey->m_PSKF_SetSymmKey(pRCI->m_hDev, bKey,m_nEncryptMethod, &hKey);
+	if (dwRet)
+	{
+		DealwithError("SKF_SetSymmKey failed");
+		delete []bBase;
+		return dwRet;
+	}
+
+	BLOCKCIPHERPARAM DencryptParam;
+	memset((char *)&DencryptParam,0x00,sizeof(BLOCKCIPHERPARAM));
+	dwRet = pReadUKey->m_PSKF_DecryptInit(hKey,DencryptParam);
+	if (dwRet)
+	{
+		DealwithError("m_PSKF_DecryptInit failed");
+		delete []bBase;
+		return dwRet;
+	}
+
+	dwRet = pReadUKey->m_PSKF_Decrypt(hKey, bBase, dwBaseLen, bOutData, &dwOutDataLen);
+	if (dwRet)
+	{
+		DealwithError("m_PSKF_Decrypt failed");
+		delete []bBase;
+		return dwRet;
+	}
+
+
+	bOutData = new BYTE[dwOutDataLen+1];
+	memset(bOutData, 0x00, dwOutDataLen+1);
+	dwRet = pReadUKey->m_PSKF_Decrypt(hKey, bBase, dwBaseLen, bOutData, &dwOutDataLen);
+	if (dwRet)
+	{
+		DealwithError("m_PSKF_Decrypt failed");
+		delete []bBase;
+		delete []bOutData;
+		return dwRet;
+	}
+
+	FILE    *fp;
+	fp=fopen(szInFile.c_str() ,"wb+");
+	if(!fp)
+	{
+		DealwithError("m_PSKF_Decrypt failed");
+		delete []bBase;
+		delete []bOutData;
+		return -1;
+	}
+
+	long lIndex = dwOutDataLen-1;
+
+	while (*(bOutData+lIndex) == 0)
+	{
+		lIndex--;
+	}
+
+	dwOutDataLen = lIndex+1;
+	//dwOutDataLen = 13778;
+	int nNum = 0;
+	for (int i=0; i< dwOutDataLen;i = i+1024)
+	{
+		if (i+1024 >dwOutDataLen)
+		{
+			int len = fwrite(bOutData+i, 1,dwOutDataLen-i ,fp);
+		}
+		else
+		{
+			int len = fwrite(bOutData+i, 1,1024 ,fp);
+		}
+
+	nNum+=200;
+		
+	}
+
+
+	//BYTE* bOutData2 = new BYTE[5];
+	//memset(bOutData2, 0x00, 5);
+	//memcpy(bOutData2,"qwer",4);
+	//int dwOutDataLen2 = 4;
+	//int len = fwrite(bOutData2, 1,dwOutDataLen2 ,fp);
+	//Sleep(2000);
+	//fflush(fp);
+	fclose(fp);
+
+	//Sleep(nNum);	
+
+	Json::Value jsVal;
+	jsVal["resultCode"] = "0";
+	SendResp(jsVal.toStyledString());
+
+
+	delete []bBase;
+	delete []bOutData;
+	return 0;
+
+
+}
+
+
 int CParserPostMsg::SOF_DecryptDataDW2()
 {
 	std::string szSymmKey = m_inRoot["SymmKey"].asString();
@@ -1796,29 +2070,47 @@ int CParserPostMsg::SOF_EncryptFileDW2()
 	std::string szOutFile = m_inRoot["OutFile"].asString();
 
 	//得到待加密文件
-	std::string szInData;
-	if (ReadFileInfo(szInFile,szInData))
+//	std::string szInData;
+	m_btBuf = NULL;
+	m_lLen =0;
+	if (ReadByteFileInfo(szInFile))
 	{
 		DealwithError("file is not exist");
 		return 1;
 	}
 
-	std::string szOutData;
 
-	if (!SOF_EncryptDataDWLoc(szSymmKey,szInData,szOutData))
+	/*FILE    *fp;
+	fp=fopen("d:\\12.doc" ,"wb+");
+	for (int i=0; i< m_lLen;i = i+1024)
 	{
-		//生成新的文件，规则在原有文件名上加上年月日时分秒
-		std::string szNewPath = szOutFile;
-		if (WriteFileInfo(szInFile, szOutData, szNewPath))
+		if (i+1024 >m_lLen)
 		{
-			DealwithError("file name format is error");
-			return 1;
+			int len = fwrite(m_btBuf+i, 1,m_lLen-i ,fp);
+		}
+		else
+		{
+			int len = fwrite(m_btBuf+i, 1,1024 ,fp);
 		}
 
-		Json::Value jsVal;
-		jsVal["resultCode"] = "0";
-		SendResp(jsVal.toStyledString());
+	}
+	fclose(fp);*/
+
+	std::string szOutData;
+
+	if (!SOF_EncryptFileDWLoc(szSymmKey,m_btBuf,m_lLen,szOutFile))
+	{
+		if (NULL != m_btBuf)
+		{
+			delete []m_btBuf;
+		}
+		
 		return 0;
+	}
+
+	if (NULL != m_btBuf)
+	{
+		delete []m_btBuf;
 	}
 
 	return 1;
@@ -1896,22 +2188,20 @@ int CParserPostMsg::SOF_DecryptFileDW2()
 	}
 
 	std::string szOutData;
-	if (!SOF_DecryptDataDWLoc(szSymmKey,szInData,szOutData))
+	if (!SOF_DecryptFileDWLoc(szSymmKey,szInData,szOutFile))
 	{
-		//生成新的文件，规则在原有文件名上加上年月日时分秒
-		std::string szNewPath = szOutFile;
-		if (WriteFileInfo(szInFile, szOutData, szNewPath))
-		{
-			DealwithError("file name format is error");
-			return 1;
-		}
+		////生成新的文件，规则在原有文件名上加上年月日时分秒
+		//std::string szNewPath = szOutFile;
+		//if (WriteFileInfo(szInFile, szOutData, szNewPath))
+		//{
+		//	DealwithError("file name format is error");
+		//	return 1;
+		//}
 
 
-		Json::Value jsVal;
-
-		//jsVal["OutFile"] = szNewPath;
-		jsVal["resultCode"] = "0";
-		SendResp(jsVal.toStyledString());
+		//Json::Value jsVal;
+		//jsVal["resultCode"] = "0";
+		//SendResp(jsVal.toStyledString());
 		return 0;
 	}
 
@@ -2440,14 +2730,13 @@ int CParserPostMsg::SOF_VerifySignedDataByP7DW()
 			nReturn_ =m_PSDM.DealWithRecvMsg("result",szResp);
 			if (0 == nReturn_)
 			{
-				nResp = atoi(szResp.c_str());
-				if (0 == nResp)
+				if (0 == szResp.compare("0"))
 				{
-					bResp = FALSE;
+					bResp = TRUE;
 				}
 				else
 				{
-					bResp = TRUE;
+					bResp = FALSE;
 				}
 			}
 		}
@@ -2501,7 +2790,17 @@ int CParserPostMsg::SOF_GetP7SignDataInfoDW()
 		nReturn_ = m_PSDM.PostHttpPage(SD_GETP7SIGNDATAINFO,m_inRoot,szResp);
 		if (0 == nReturn_)
 		{
-			nReturn_ =m_PSDM.DealWithRecvMsg("result",szResp);
+			std::string szTmp = szResp;
+			nReturn_ =m_PSDM.DealWithRecvMsg("resultCode",szResp);
+			if (0 == nReturn_ && 0 == szResp.compare("0"))
+			{
+				szResp = szTmp;
+				nReturn_ =m_PSDM.DealWithRecvMsg("resultData",szResp);
+			}
+			else
+			{
+				nReturn_ =1;
+			}
 		}
 	}
 	else
@@ -2649,14 +2948,13 @@ int CParserPostMsg::SOF_VerifySignedDataXMLDW()
 			nReturn_ =m_PSDM.DealWithRecvMsg("result",szResp);
 			if (0 == nReturn_)
 			{
-				nResp = atoi(szResp.c_str());
-				if (0 == nResp)
+				if (0 == szResp.compare("0"))
 				{
-					bResp = FALSE;
+					bResp = TRUE;
 				}
 				else
 				{
-					bResp = TRUE;
+					bResp = FALSE;
 				}
 			}
 		}
@@ -2709,7 +3007,17 @@ int CParserPostMsg::SOF_GetXMLSignatureInfoDW()
 		nReturn_ = m_PSDM.PostHttpPage(SD_GETXMLSIGNTUREINFO,m_inRoot,szResp);
 		if (0 == nReturn_)
 		{
-			nReturn_ =m_PSDM.DealWithRecvMsg("result",szResp);
+			std::string szTmp = szResp;
+			nReturn_ =m_PSDM.DealWithRecvMsg("resultCode",szResp);
+			if (0 == nReturn_ && 0 == szResp.compare("0"))
+			{
+				szResp = szTmp;
+				nReturn_ =m_PSDM.DealWithRecvMsg("resultData",szResp);
+			}
+			else
+			{
+				nReturn_ =1;
+			}
 		}
 	}
 	else
@@ -2808,7 +3116,18 @@ int CParserPostMsg::SOF_GenRandomDW()
 		nReturn_ = m_PSDM.PostHttpPage(SD_GENRANDOM,m_inRoot,szResp);
 		if (0 == nReturn_)
 		{
-			nReturn_ =m_PSDM.DealWithRecvMsg("result",szResp);
+			std::string szTmp = szResp;
+			nReturn_ =m_PSDM.DealWithRecvMsg("resultMsg",szResp);
+			if (0 == szResp.compare("success"))
+			{
+				szResp = szTmp;
+				nReturn_ =m_PSDM.DealWithRecvMsg("randombase64",szResp);
+			}
+			else
+			{
+				nReturn_ = 1;
+			}
+			
 		}
 	}
 	else
@@ -2918,6 +3237,32 @@ int CParserPostMsg::ReadFileInfo(std::string szFilePath, std::string& szBuf)
 	return 0;
 }
 
+int CParserPostMsg::ReadByteFileInfo(std::string szFilePath)
+{
+
+	FILE    *fp;
+	int     len;
+
+	fp=fopen(szFilePath.c_str(),"rb");
+	if(!fp) return -1;
+
+	fseek(fp,0,SEEK_END);
+	m_lLen = ftell(fp); //return NULL;
+	if (m_lLen ==0)
+	{
+		fclose(fp);
+		return 1;
+	}
+
+	m_btBuf = new BYTE[m_lLen+1];
+	memset(m_btBuf,0,m_lLen+1);
+
+	fseek(fp,0,SEEK_SET);
+	len=fread(m_btBuf,1,m_lLen,fp);
+	fclose(fp);
+	return 0;
+}
+
 int CParserPostMsg::WriteFileInfo(std::string szResName,const std::string& strBuf, std::string& szNewPath)
 {
 	//得到新的文件名，在原来的文件名上加上年月日时分秒
@@ -2934,18 +3279,6 @@ int CParserPostMsg::WriteFileInfo(std::string szResName,const std::string& strBu
 	{
 		return -1;
 	}
-
-	////文件名上增加年月日时分秒
-	//CString strTime;
-
-	//SYSTEMTIME sys;
-	//GetLocalTime(&sys);
-	//strTime.Format("%04d%02d%02d%02d%02d%02d",sys.wYear,sys.wMonth,sys.wDay,sys.wHour,sys.wMinute,sys.wSecond);
-
-	//strName+= strTime;
-	//CString strNewPath = strPath+strName+"."+strExtName;
-
-	//szNewPath = strNewPath.GetBuffer();
 
 
 	FILE    *fp;

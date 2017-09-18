@@ -37,7 +37,6 @@ public:
 	int SOF_SignFileDW();
 	int SOF_VerifySignedFileDW();
 	int SOF_EncryptDataDW();
-	int SOF_EncryptDataDWLoc();
 	int SOF_DecryptDataDW();
 	int SOF_EncryptFileDW();
 	int SOF_DecryptFileDW();
@@ -58,7 +57,10 @@ public:
 	int SOF_EncryptDataDW2();
 	int SOF_DecryptDataDW2();
 	int SOF_DecryptDataDWLoc(std::string szSymmKey,std::string szIndata,std::string& szOutdata);
+	int SOF_DecryptFileDWLoc(std::string szSymmKey,std::string szIndata,std::string  szInFile );
+
 	int SOF_EncryptDataDWLoc(std::string szSymmKey,std::string szIndata,std::string& szOutdata);
+	int SOF_EncryptFileDWLoc(std::string szSymmKey,BYTE* btBuf, long lLen,std::string szInFile);
 	int SOF_EncryptFileDW2();
 	int SOF_DecryptFileDW2();
 
@@ -69,6 +71,8 @@ public:
 	int SendUserInfo(std::string szInfo);
 	void ClearConnect();
 	int ReadFileInfo(std::string szFilePath, std::string& szBuf);
+	int ReadByteFileInfo(std::string szFilePath);
+
 	int WriteFileInfo(std::string szResName, const std::string& strBuf, std::string& szNewPath);
 
 	void SetAsn1Value(BYTE* pbAllData);
@@ -97,4 +101,7 @@ public:
 	BOOL m_bSetIP;
 	CString m_strUrl;
 	CParserSDMsg m_PSDM;
+
+	BYTE* m_btBuf;
+	long m_lLen;
 };

@@ -55,7 +55,7 @@ int CParserSDMsg::PostHttpPage(std::string pathName, Json::Value& jsData,std::st
 
 		CHttpConnection* pServer = session.GetHttpConnection(m_szHostName.c_str(),m_nPort);
 		CHttpFile* pFile = pServer->OpenRequest(CHttpConnection::HTTP_VERB_POST,pathName.c_str());
-		CString strHeaders = "Content-Type: application/x-www-form-urlencoded"; //请求头
+		CString strHeaders = "Content-Type: application/json;charset=UTF-8"; //请求头
 
 		//开始发送请求
 

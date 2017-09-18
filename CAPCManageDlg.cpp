@@ -1390,7 +1390,7 @@ BOOL CCAPCManageDlg::analysisCert2(unsigned char* p,int len,int& nRow, CReadUKey
 	return TRUE;
 }
 
-void one_select_file(CString &strPath,CString &strFile,BOOL open_save)
+BOOL one_select_file(CString &strPath,CString &strFile,BOOL open_save)
 {
 	CFileDialog fileDlg(open_save ,  // TRUE打开Open，FALSE保存Save As文件对话框
 		".txt",  // 默认的打开文件的类型
@@ -1403,7 +1403,9 @@ void one_select_file(CString &strPath,CString &strFile,BOOL open_save)
 	if(fileDlg.DoModal() == IDOK)
 	{
 		strFile = fileDlg.GetPathName();//返回选择或输入的文件名称，
+		return TRUE;
 	}
+	return FALSE;
 }
 
 void CCAPCManageDlg::SaveBase64(char* szbuf, CString strFileName)
@@ -1454,9 +1456,14 @@ void CCAPCManageDlg::OnBnClickedButton3()
 	CString strPath="d:/";
 	CString strFileName="1.txt";
 
-	one_select_file(strPath,strFileName,FALSE); //FALSE另存文件
+	BOOL bRet =one_select_file(strPath,strFileName,FALSE); //FALSE另存文件
 
-	SaveBase64(szBuf,strFileName);
+	if (bRet)
+	{
+		SaveBase64(szBuf,strFileName);
+	}
+
+	
 
 
 	delete szBuf;

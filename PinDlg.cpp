@@ -52,10 +52,14 @@ void CPinDlg::OnBnClickedOk()
 	//	return;
 	//}
 
-	rv = g_readUKey->CheckPin(g_readUKey->m_hDev,g_readUKey->m_hApp,strPin.GetBuffer());
+
+	ULONG ulRetryCount=0;
+	rv = g_readUKey->CheckPin(g_readUKey->m_hDev,g_readUKey->m_hApp,strPin.GetBuffer(),ulRetryCount);
 	if (rv)
 	{
-		AfxMessageBox("PIN 码 错误，请重新输入！");
+		CString strMsg;
+		strMsg.Format("PIN 码 错误，请重新输入,你有 %d 机会.",ulRetryCount);
+		AfxMessageBox(strMsg);
 		return;
 	}
 	
