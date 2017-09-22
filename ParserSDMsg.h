@@ -31,6 +31,8 @@ public:
 	BOOL PreDealWithMsg(const std::string& szType,Json::Value& jsData, std::string& szOutData);
 	int DealWithRecvMsg(const std::string& szType, std::string& szData);
 
+	int RunGmssl();
+
 	std::string m_szHostName;
 	INTERNET_PORT m_nPort;
 };

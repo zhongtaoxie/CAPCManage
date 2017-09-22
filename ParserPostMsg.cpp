@@ -380,7 +380,7 @@ int CParserPostMsg::DealwithSetSignMethod()
 	}
 	else
 	{
-		ns1__SOF_USCORESetSignMethod sofRequest;
+		WS1__SOF_USCORESetSignMethod sofRequest;
 		sofRequest.signMethod = m_nSignMethod;
 		LOG_INFO("SOF_SetSignMethod:sofRequest.signMethod=%d",sofRequest.signMethod);
 		nReturn_ = soapSender::SOF_SetSignMethod(sofRequest, szResp);
@@ -459,7 +459,7 @@ int CParserPostMsg::SOF_SetEncryptMethodDW()
 	}
 	else
 	{
-		ns1__SOF_USCORESetEncryptMethod sofRequest;
+		WS1__SOF_USCORESetEncryptMethod sofRequest;
 		sofRequest.encryptMethod = m_nEncryptMethod;
 		LOG_INFO("SOF_SetEncryptMethod:sofRequest.encryptMethod=%d",sofRequest.encryptMethod);
 		nReturn_ = soapSender::SOF_SetEncryptMethod(sofRequest, szResp);
@@ -792,8 +792,10 @@ int CParserPostMsg::SOF_GetCertInfoDW()
 	}
 	else
 	{
-		ns1__SOF_USCOREGetCertInfo sofRequest;
-		sofRequest.base64EncodeCert = &szCert;
+		std::wstring wszCert = CEnDecodeClass::StringA2W(szCert);
+
+		WS1__SOF_USCOREGetCertInfo sofRequest;
+		sofRequest.base64EncodeCert = &wszCert;
 		sofRequest.type = nType;
 		LOG_INFO("SOF_GetCertInfo:sofRequest.base64EncodeCert=%s,\r\nsofRequest.type=%d",
 			sofRequest.base64EncodeCert->c_str(),
@@ -864,9 +866,12 @@ int CParserPostMsg::SOF_GetCertInfoByOidDW()
 	}
 	else
 	{
-		ns1__SOF_USCOREGetCertInfoByOid sofRequest;
-		sofRequest.base64EncodeCert = &szCert;
-		sofRequest.oid = &szOid;
+		std::wstring wszCert = CEnDecodeClass::StringA2W(szCert);
+		std::wstring wszOid = CEnDecodeClass::StringA2W(szOid);
+
+		WS1__SOF_USCOREGetCertInfoByOid sofRequest;
+		sofRequest.base64EncodeCert = &wszCert;
+		sofRequest.oid = &wszOid;
 		LOG_INFO("SOF_GetCertInfoByOid:sofRequest.base64EncodeCert=%s,\r\nsofRequest.oid=%s",
 			sofRequest.base64EncodeCert->c_str(),
 			sofRequest.oid->c_str());
@@ -1088,8 +1093,10 @@ int CParserPostMsg::SOF_ValidateCertDW()
 	}
 	else
 	{
-		ns1__SOF_USCOREValidateCert sofRequest;
-		sofRequest.base64EncodeCert = &szCert;
+		std::wstring wszCert = CEnDecodeClass::StringA2W(szCert);
+
+		WS1__SOF_USCOREValidateCert sofRequest;
+		sofRequest.base64EncodeCert = &wszCert;
 		LOG_INFO("SOF_ValidateCert:sofRequest.base64EncodeCert=%s",
 			sofRequest.base64EncodeCert->c_str());
 		nReturn_ = soapSender::SOF_ValidateCert(sofRequest, nResp);
@@ -1193,6 +1200,9 @@ int CParserPostMsg::SOF_SignDataDW(std::string szCertId,
 		DealwithError("no find cert");
 		return 1;
 	}
+
+//	CEnDecodeClass::Gbk2Utf(szInData);
+
 
 	pOutRCI = pRCI;
 
@@ -1359,6 +1369,7 @@ int CParserPostMsg::SOF_VerifySignedDataDW()
 
 	std::string szCert = m_inRoot["Cert"].asString();
 	std::string szInData = m_inRoot["InData"].asString();
+	//CEnDecodeClass::Gbk2Utf(szInData);
 	std::string szSignValue = m_inRoot["SignValue"].asString();
 
 	std::string szResp;
@@ -1389,10 +1400,16 @@ int CParserPostMsg::SOF_VerifySignedDataDW()
 	}
 	else
 	{
-		ns1__SOF_USCOREVerifySignedData sofRequest;
-		sofRequest.inData = &szInData;
-		sofRequest.signValue = &szSignValue;
-		sofRequest.base64EncodeCert =&szCert;
+		WS1__SOF_USCOREVerifySignedData sofRequest;
+		std::wstring wszInData = CEnDecodeClass::StringA2W(szInData);
+		std::wstring wszSignValue = CEnDecodeClass::StringA2W(szSignValue);
+		std::wstring wszCert = CEnDecodeClass::StringA2W(szCert);
+
+		sofRequest.inData = &wszInData;
+		sofRequest.signValue = &wszSignValue;
+		sofRequest.base64EncodeCert =&wszCert;
+
+
 		LOG_INFO("soapSender::SOF_VerifySignedData");
 		nReturn_ = soapSender::SOF_VerifySignedData(sofRequest, bResp);
 	}
@@ -1491,10 +1508,14 @@ int CParserPostMsg::SOF_VerifySignedFileDW()
 	}
 	else
 	{
-		ns1__SOF_USCOREVerifySignedData sofRequest;
-		sofRequest.inData = &szInData;
-		sofRequest.signValue = &szSignValue;
-		sofRequest.base64EncodeCert =&szCert;
+		std::wstring wszInData = CEnDecodeClass::StringA2W(szInData);
+		std::wstring wszSignValue = CEnDecodeClass::StringA2W(szSignValue);
+		std::wstring wszCert = CEnDecodeClass::StringA2W(szCert);
+
+		WS1__SOF_USCOREVerifySignedData sofRequest;
+		sofRequest.inData = &wszInData;
+		sofRequest.signValue = &wszSignValue;
+		sofRequest.base64EncodeCert =&wszCert;
 
 		LOG_INFO("soapSender::SOF_VerifySignedData");
 		nReturn_ = soapSender::SOF_VerifySignedData(sofRequest, bResp);
@@ -1687,7 +1708,7 @@ int CParserPostMsg::SOF_EncryptFileDWLoc(std::string szSymmKey,BYTE* btBuf, long
 	pbOutData = new BYTE[dwOutDataLen+1];
 	memset(pbOutData, 0x00, dwOutDataLen+1);
 	dwRet = pReadUKey->m_PSKF_Encrypt(hKey, pbInData, dwInDataLen, pbOutData, &dwOutDataLen);
-	if (dwRet)
+	if (dwRet ||dwOutDataLen<m_lLen)
 	{
 		DealwithError("m_PSKF_Encrypt failed");
 		delete []pbOutData;
@@ -1695,7 +1716,8 @@ int CParserPostMsg::SOF_EncryptFileDWLoc(std::string szSymmKey,BYTE* btBuf, long
 		return dwRet;
 	}
 
-	std::string szOutdata = Base64.base64_encode(pbOutData,dwOutDataLen);
+//	std::string szOutdata = Base64.base64_encode(pbOutData,dwOutDataLen);
+
 
 
 	FILE    *fp;
@@ -1708,7 +1730,7 @@ int CParserPostMsg::SOF_EncryptFileDWLoc(std::string szSymmKey,BYTE* btBuf, long
 		return -1;
 	}
 
-	int len = fwrite(szOutdata.c_str(), 1,szOutdata.length() ,fp);
+	int len = fwrite(pbOutData, 1,dwOutDataLen ,fp);
 	fclose(fp);
 
 	Json::Value jsVal;
@@ -1758,13 +1780,15 @@ int CParserPostMsg::SOF_EncryptDataDW()//---改为本地加密，该函数废弃
 	std::string szSymmKey = m_inRoot["SymmKey"].asString();
 	std::string szIndata = m_inRoot["Indata"].asString();
 
-	ns1__SOF_USCOREEncryptData sofRequest;
+	WS1__SOF_USCOREEncryptData sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
-	//sofRequest.tokenId = &szToken;
-	sofRequest.inData = &szIndata;
-	sofRequest.key = &szSymmKey;
+	std::wstring wszIndata = CEnDecodeClass::StringA2W(szIndata);
+	std::wstring wszSymmKey = CEnDecodeClass::StringA2W(szSymmKey);
+
+	sofRequest.inData = &wszIndata;
+	sofRequest.key =   &wszSymmKey;
 
 	int nReturn_ = soapSender::SOF_EncryptData(sofRequest, szResp);
 	if (0 == nReturn_)
@@ -1891,10 +1915,22 @@ int CParserPostMsg::SOF_DecryptFileDWLoc(std::string szSymmKey,std::string szInd
 	memcpy(bKey, szSymmKey.c_str(), 16);
 
 	//得到base64解密后的数据
-	dwInDataLen = szIndata.length();
-	bBase = new BYTE[dwInDataLen];
-	memset(bBase, 0x00, dwInDataLen);
-	dwBaseLen = Base64Decode(bBase,szIndata.c_str());
+	//dwInDataLen = szIndata.length();
+	//bBase = new BYTE[dwInDataLen];
+	//memset(bBase, 0x00, dwInDataLen);
+	//dwBaseLen = Base64Decode(bBase,szIndata.c_str());
+
+	
+	bBase = m_btBuf;
+	dwBaseLen = m_lLen;
+	if (dwBaseLen%16)
+	{
+		long dwBlockNum = dwBaseLen/16;
+		dwBlockNum = dwBlockNum+1;
+		dwBaseLen = dwBlockNum*16;
+	}
+
+	
 
 	//得到第一个证书
 	ReadCertInfo* pRCI =GetCertInfo("",TRUE);
@@ -1909,7 +1945,6 @@ int CParserPostMsg::SOF_DecryptFileDWLoc(std::string szSymmKey,std::string szInd
 	if (dwRet)
 	{
 		DealwithError("SKF_SetSymmKey failed");
-		delete []bBase;
 		return dwRet;
 	}
 
@@ -1919,7 +1954,6 @@ int CParserPostMsg::SOF_DecryptFileDWLoc(std::string szSymmKey,std::string szInd
 	if (dwRet)
 	{
 		DealwithError("m_PSKF_DecryptInit failed");
-		delete []bBase;
 		return dwRet;
 	}
 
@@ -1927,7 +1961,6 @@ int CParserPostMsg::SOF_DecryptFileDWLoc(std::string szSymmKey,std::string szInd
 	if (dwRet)
 	{
 		DealwithError("m_PSKF_Decrypt failed");
-		delete []bBase;
 		return dwRet;
 	}
 
@@ -1935,10 +1968,9 @@ int CParserPostMsg::SOF_DecryptFileDWLoc(std::string szSymmKey,std::string szInd
 	bOutData = new BYTE[dwOutDataLen+1];
 	memset(bOutData, 0x00, dwOutDataLen+1);
 	dwRet = pReadUKey->m_PSKF_Decrypt(hKey, bBase, dwBaseLen, bOutData, &dwOutDataLen);
-	if (dwRet)
+	if (dwRet || dwOutDataLen <m_lLen)
 	{
 		DealwithError("m_PSKF_Decrypt failed");
-		delete []bBase;
 		delete []bOutData;
 		return dwRet;
 	}
@@ -1948,21 +1980,12 @@ int CParserPostMsg::SOF_DecryptFileDWLoc(std::string szSymmKey,std::string szInd
 	if(!fp)
 	{
 		DealwithError("m_PSKF_Decrypt failed");
-		delete []bBase;
 		delete []bOutData;
 		return -1;
 	}
 
-	long lIndex = dwOutDataLen-1;
+	//dwOutDataLen = m_lLen;
 
-	while (*(bOutData+lIndex) == 0)
-	{
-		lIndex--;
-	}
-
-	dwOutDataLen = lIndex+1;
-	//dwOutDataLen = 13778;
-	int nNum = 0;
 	for (int i=0; i< dwOutDataLen;i = i+1024)
 	{
 		if (i+1024 >dwOutDataLen)
@@ -1973,29 +1996,16 @@ int CParserPostMsg::SOF_DecryptFileDWLoc(std::string szSymmKey,std::string szInd
 		{
 			int len = fwrite(bOutData+i, 1,1024 ,fp);
 		}
-
-	nNum+=200;
-		
 	}
 
-
-	//BYTE* bOutData2 = new BYTE[5];
-	//memset(bOutData2, 0x00, 5);
-	//memcpy(bOutData2,"qwer",4);
-	//int dwOutDataLen2 = 4;
-	//int len = fwrite(bOutData2, 1,dwOutDataLen2 ,fp);
-	//Sleep(2000);
-	//fflush(fp);
 	fclose(fp);
-
-	//Sleep(nNum);	
+	
 
 	Json::Value jsVal;
 	jsVal["resultCode"] = "0";
 	SendResp(jsVal.toStyledString());
 
 
-	delete []bBase;
 	delete []bOutData;
 	return 0;
 
@@ -2033,13 +2043,15 @@ int CParserPostMsg::SOF_DecryptDataDW()//---改为本地解密，该函数废弃
 	std::string szSymmKey = m_inRoot["SymmKey"].asString();
 	std::string szIndata = m_inRoot["Indata"].asString();
 
-	ns1__SOF_USCOREDecryptData sofRequest;
+	WS1__SOF_USCOREDecryptData sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
-	//sofRequest.tokenId = &szToken;
-	sofRequest.inData = &szIndata;
-	sofRequest.key = &szSymmKey;
+	std::wstring wszIndata = CEnDecodeClass::StringA2W(szIndata);
+	std::wstring wszSymmKey = CEnDecodeClass::StringA2W(szSymmKey);
+
+	sofRequest.inData = &wszIndata;
+	sofRequest.key = &wszSymmKey;
 
 	int nReturn_ = soapSender::SOF_DecryptData(sofRequest, szResp);
 	if (0 == nReturn_)
@@ -2137,13 +2149,15 @@ int CParserPostMsg::SOF_EncryptFileDW()//---改为本地加密，该函数废弃
 		return 1;
 	}
 
-	ns1__SOF_USCOREEncryptData sofRequest;
+	WS1__SOF_USCOREEncryptData sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
-	//sofRequest.tokenId = &szToken;
-	sofRequest.inData = &szInData;
-	sofRequest.key = &szSymmKey;
+	std::wstring wszInData = CEnDecodeClass::StringA2W(szInData);
+	std::wstring wszSymmKey = CEnDecodeClass::StringA2W(szSymmKey);
+
+	sofRequest.inData = &wszInData;
+	sofRequest.key = &wszSymmKey;
 
 	int nReturn_ = soapSender::SOF_EncryptData(sofRequest, szResp);
 	if (0 != nReturn_)
@@ -2181,7 +2195,7 @@ int CParserPostMsg::SOF_DecryptFileDW2()
 
 	//得到待加密文件
 	std::string szInData;
-	if (ReadFileInfo(szInFile,szInData))
+	if (ReadByteFileInfo(szInFile))
 	{
 		DealwithError("file is not exist");
 		return 1;
@@ -2190,21 +2204,11 @@ int CParserPostMsg::SOF_DecryptFileDW2()
 	std::string szOutData;
 	if (!SOF_DecryptFileDWLoc(szSymmKey,szInData,szOutFile))
 	{
-		////生成新的文件，规则在原有文件名上加上年月日时分秒
-		//std::string szNewPath = szOutFile;
-		//if (WriteFileInfo(szInFile, szOutData, szNewPath))
-		//{
-		//	DealwithError("file name format is error");
-		//	return 1;
-		//}
-
-
-		//Json::Value jsVal;
-		//jsVal["resultCode"] = "0";
-		//SendResp(jsVal.toStyledString());
+		delete []m_btBuf;
 		return 0;
 	}
 
+	delete []m_btBuf;
 	return 1;
 
 
@@ -2231,13 +2235,15 @@ int CParserPostMsg::SOF_DecryptFileDW()//---改为本地解密，该函数废弃
 
 
 
-	ns1__SOF_USCOREDecryptData sofRequest;
+	WS1__SOF_USCOREDecryptData sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
-	//sofRequest.tokenId = &szToken;
-	sofRequest.inData = &szInData;
-	sofRequest.key = &szSymmKey;
+	std::wstring wszInData = CEnDecodeClass::StringA2W(szInData);
+	std::wstring wszSymmKey = CEnDecodeClass::StringA2W(szSymmKey);
+
+	sofRequest.inData = &wszInData;
+	sofRequest.key = &wszSymmKey;
 
 	int nReturn_ = soapSender::SOF_DecryptData(sofRequest, szResp);
 	if (0 != nReturn_)
@@ -2376,7 +2382,7 @@ int CParserPostMsg::SOF_PubKeyEncryptDW()
 	
 
 
-	//ns1__SOF_USCOREPubKeyEncrypt sofRequest;
+	//WS1__SOF_USCOREPubKeyEncrypt sofRequest;
 	//std::string szResp;
 
 	//std::string szToken("9877654433");
@@ -2743,8 +2749,10 @@ int CParserPostMsg::SOF_VerifySignedDataByP7DW()
 	}
 	else
 	{
-		ns1__SOF_USCOREVerifySignedDataByP7 sofRequest;
-		sofRequest.pkcs7SignData =&szP7Data;
+		std::wstring wszP7Data = CEnDecodeClass::StringA2W(szP7Data);
+
+		WS1__SOF_USCOREVerifySignedDataByP7 sofRequest;
+		sofRequest.pkcs7SignData =&wszP7Data;
 		LOG_INFO("SOF_VerifySignedDataByP7:sofRequest.pkcs7SignData=%s",sofRequest.pkcs7SignData->c_str());
 		nReturn_ = soapSender::SOF_VerifySignedDataByP7(sofRequest, bResp);
 	}
@@ -2805,8 +2813,9 @@ int CParserPostMsg::SOF_GetP7SignDataInfoDW()
 	}
 	else
 	{
-		ns1__SOF_USCOREGetP7SignDataInfo sofRequest;
-		sofRequest.pkcs7SignData =&szP7Data;
+		std::wstring wszP7Data = CEnDecodeClass::StringA2W(szP7Data);
+		WS1__SOF_USCOREGetP7SignDataInfo sofRequest;
+		sofRequest.pkcs7SignData =&wszP7Data;
 		sofRequest.type =nType;
 		LOG_INFO("SOF_GetP7SignDataInfo:sofRequest.pkcs7SignData=%s,sofRequest.type=%d",sofRequest.pkcs7SignData->c_str(),
 			sofRequest.type);
@@ -2896,7 +2905,7 @@ int CParserPostMsg::SOF_SignDataXMLDW()
 	}
 
 
-	//ns1__SOF_USCORESignDataXML sofRequest;
+	//WS1__SOF_USCORESignDataXML sofRequest;
 	//std::string szResp;
 
 	//std::string szToken("9877654433");
@@ -2961,8 +2970,9 @@ int CParserPostMsg::SOF_VerifySignedDataXMLDW()
 	}
 	else
 	{
-		ns1__SOF_USCOREVerifySignedDataXML sofRequest;
-		sofRequest.inData =&szInData;
+		std::wstring wszInData = CEnDecodeClass::StringA2W(szInData);
+		WS1__SOF_USCOREVerifySignedDataXML sofRequest;
+		sofRequest.inData =&wszInData;
 		LOG_INFO("SOF_VerifySignedDataXML:sofRequest.inData=%s", sofRequest.inData->c_str());
 		nReturn_ = soapSender::SOF_VerifySignedDataXML(sofRequest, bResp);
 	}
@@ -3022,9 +3032,10 @@ int CParserPostMsg::SOF_GetXMLSignatureInfoDW()
 	}
 	else
 	{
+		std::wstring wszXMLSignedData = CEnDecodeClass::StringA2W(szXMLSignedData);
 		//ReadFileInfo("D:\\x.txt",szXMLSignedData);
-		ns1__SOF_USCOREGetXMLSignatureInfo sofRequest;
-		sofRequest.XMLSignedData =&szXMLSignedData;
+		WS1__SOF_USCOREGetXMLSignatureInfo sofRequest;
+		sofRequest.XMLSignedData =&wszXMLSignedData;
 		sofRequest.type = nType;
 		LOG_INFO("SOF_GetXMLSignatureInfo:sofRequest.XMLSignedData=%s,sofRequest.type=%d",sofRequest.XMLSignedData->c_str(),
 			sofRequest.type);
@@ -3132,7 +3143,7 @@ int CParserPostMsg::SOF_GenRandomDW()
 	}
 	else
 	{
-		ns1__SOF_USCOREGenRandom sofRequest;
+		WS1__SOF_USCOREGenRandom sofRequest;
 		sofRequest.len= nLen;
 		LOG_INFO("SOF_USCOREGenRandom:len=%d", sofRequest.len);
 		nReturn_ = soapSender::SOF_USCOREGenRandom(sofRequest, szResp);
@@ -3254,8 +3265,8 @@ int CParserPostMsg::ReadByteFileInfo(std::string szFilePath)
 		return 1;
 	}
 
-	m_btBuf = new BYTE[m_lLen+1];
-	memset(m_btBuf,0,m_lLen+1);
+	m_btBuf = new BYTE[m_lLen+16];
+	memset(m_btBuf,0,m_lLen+16);
 
 	fseek(fp,0,SEEK_SET);
 	len=fread(m_btBuf,1,m_lLen,fp);
@@ -3378,8 +3389,9 @@ int CParserPostMsg::SOF_GetInstanceDW()
 	}
 	else
 	{
-		ns1__SOF_USCOREGetInstance sofRequest;
-		sofRequest.appName= &szAppName;
+		std::wstring wszAppName = CEnDecodeClass::StringA2W(szAppName);
+		WS1__SOF_USCOREGetInstance sofRequest;
+		sofRequest.appName= &wszAppName;
 		LOG_INFO("SOF_USCOREGetInstance:AppName=%s",sofRequest.appName->c_str());
 		nReturn_ = soapSender::SOF_USCOREGetInstance(sofRequest,szResp);
 	}

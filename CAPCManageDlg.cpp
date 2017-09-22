@@ -501,7 +501,7 @@ void CCAPCManageDlg::OnBnClickedBtnLogin()
 
 	
 
-		ns1__SOF_USCOREVerifySignedData sofRequest;
+		WS1__SOF_USCOREVerifySignedData sofRequest;
 		BOOL bResp = FALSE;
 
 		std::string szToken("9877654433");
@@ -512,9 +512,13 @@ void CCAPCManageDlg::OnBnClickedBtnLogin()
 		//m_szRandom = "qwer1234";
 		//szCert ="MIIEETCCA3qgAwIBAgIIIBcFIwMAZAMwDQYJKoZIhvcNAQEFBQAwgY4xDTALBgNVBAYeBABDAE4xDzANBgNVBAgeBmxfgs93ATEPMA0GA1UEBx4GU1dOrF4CMS8wLQYDVQQKHiZsX4LPdwF1NVtQVUZSoYvBTmaLpIvBTi1fw2cJllCNI077UWxT+DERMA8GA1UECx4IAEoAUwBDAEExFzAVBgNVBAMeDgBKAFMAQwBBAF8AQwBBMB4XDTE2MTExNDAzMDE1N1oXDTE4MDUyMzA2MzU1OFowgekxDjAMBgNVBFgMBTAwMDAxMQ8wDQYDVQQaHgafE2l8UzoxLTArBgNVBAEeJAAzADIAMAAxADEAMgAxADkAOAAxADAANQAxADEAMAAwADEANDEWMBQGBFUEiFceDAAxADAAMgA0ADUAMTEbMBkGA1UELR4SAHUAcwBlAHIAQwBlAHIAdAAyMQ0wCwYDVQQGHgQAQwBOMQ8wDQYDVQQIHgZsX4LPdwExDzANBgNVBAceBlNXTqxeAjEPMA0GA1UECx4GADkAOQA3MQ8wDQYDVQQqHgaYfmW5Zg4xDzANBgNVBAMeBph+ZblmDjCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAr5gQMfxEYK3ZnFk0I5C8UYtOFajpKsFa+8TSM4Jd4DnlsNA9DsMfUeN6MuIJhZFotSnvQqY6ZtsTFYyoEuot2B4jTrvaK1mt5yOjxWAFdKXBzWhCzikuu0HqS27AfnmUtxgysnxFYafMBsuaN1p4Q8o8lViWfYrafD4wxp/ueA0CAwEAAaOCARkwggEVMAkGA1UdEwQCMAAwCwYDVR0PBAQDAgbAMDEGA1UdJQQqMCgGCCsGAQUFBwMCBggrBgEFBQcDCAYIKwYBBQUHAwQGCCsGAQUFBwMIMB8GA1UdIwQYMBaAFFbAyBFUVTYGSn3tJlDoiL23o3oJMEcGCCsGAQUFBwEBBDswOTA3BggrBgEFBQcwAoYraHR0cDovLzEwLjEwOC41LjI6ODg4MC9kb3dubG9hZC9KU0NBX0NBLmNlcjA/BgNVHR8EODA2MDSgMqAwhi5odHRwOi8vd3d3LmpzY2EuY29tLmNuL2NybGRvd25sb2FkL0pTQ0FfQ0EuY3JsMB0GA1UdDgQWBBTDNGwP6Uo8840VpW+tbf6AJAalWTANBgkqhkiG9w0BAQUFAAOBgQAsNfb0tjbn0G5Lskrdv6iH6mmk0ekmHBaWtYnM3a+cFiShNqyVKRGyTHo5/4FVZW6SLw2jiJR50DBLZ2HQis+EpUYPQo5X1D9EkvS6JbG64KtZb6tnjthmOEAeD07lZbhkJBSWTguFeMklehm4HAe0kRcbNtTItx5AS41tr9UItA==";
 
-		sofRequest.signValue = &sTemp;
-		sofRequest.inData =&m_szRandom;
-		sofRequest.base64EncodeCert =&szCert;
+		std::wstring wsTemp = CEnDecodeClass::StringA2W(sTemp);
+		std::wstring wm_szRandomp = CEnDecodeClass::StringA2W(m_szRandom);
+		std::wstring wszCert = CEnDecodeClass::StringA2W(szCert);
+
+		sofRequest.signValue = &wsTemp;
+		sofRequest.inData =&wm_szRandomp;
+		sofRequest.base64EncodeCert =&wszCert;
 
 		
 
@@ -567,7 +571,7 @@ BOOL CCAPCManageDlg::SendLoginResp(std::string szResp)
 
 BOOL CCAPCManageDlg::GetGenRandomFromServer(std::string& szResp)
 {
-	ns1__SOF_USCOREGenRandom sofRequest;
+	WS1__SOF_USCOREGenRandom sofRequest;
 
 	std::string szToken("9877654433");
 	//sofRequest.tokenId = &szToken;

@@ -3,6 +3,8 @@
 
 #include "EnDecodeClass.h"
 
+extern CString g_strExePath;
+
 CParserSDMsg::CParserSDMsg(void)
 {
 	m_nPort = 8000;
@@ -36,8 +38,27 @@ CParserSDMsg::~CParserSDMsg(void)
 //	LOG_INFO(szResp.c_str());
 //}
 
+int CParserSDMsg::RunGmssl()
+{
+	CString strGmsslExe = g_strExePath + "\\gmssl\\gmssl.exe";
+	CString strCert =g_strExePath + "\\gmssl\\key\\myclient-cert.pem";
+	CString strKey = g_strExePath + "\\gmssl\\key\\myclient-key.pem";
+
+
+	CString strIP =m_szHostName.c_str();
+	int nPort = m_nPort;
+	CString strInfo;
+	strInfo.Format("%s s_client -connect %s:%d -cert %s -key %s  -msg -state -debug",strGmsslExe,strIP,nPort,strCert,strKey);
+//	CString strData = "D:\\key\\08\\gmssl.exe s_client -connect 127.0.0.1:4433 -cert s_server -cert D:\\key\\myserver-cert.pem -key D:\\key\\myserver-key.pem -msg -state -debug";
+	WinExec(strInfo, SW_HIDE);
+
+	return 0;
+}
+
+
 int CParserSDMsg::PostHttpPage(std::string pathName, Json::Value& jsData,std::string& szOut)
 {
+	RunGmssl();
 	std::string postData;
 	if(!PreDealWithMsg(pathName,jsData,postData))
 	{

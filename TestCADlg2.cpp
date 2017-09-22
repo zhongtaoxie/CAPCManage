@@ -8,6 +8,7 @@
 #include "../Include/Guomi/SKFAPI.h"
 #include "ReadUKey.h"
 #include "PinDlg.h"
+#include "EnDecodeClass.h"
 
 extern std::string g_szbase64Cert;
 extern CReadUKey* g_readUKey;
@@ -81,7 +82,7 @@ END_MESSAGE_MAP()
 void CTestCADlg2::OnBnClickedBtnGenrandom()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	ns1__SOF_USCOREGenRandom sofRequest;
+	WS1__SOF_USCOREGenRandom sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
@@ -102,12 +103,12 @@ void CTestCADlg2::OnBnClickedBtnGenrandom()
 void CTestCADlg2::OnBnClickedBtnGetinstance()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	ns1__SOF_USCOREGetInstance sofRequest;
+	WS1__SOF_USCOREGetInstance sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
 	//sofRequest.tokenId = &szToken;
-	sofRequest.appName= new std::string("xzt");
+	sofRequest.appName= new std::wstring(L"xzt");
 
 	LOG_INFO("SOF_USCOREGetInstance:tokenId=%s,appName=%s", szToken.c_str(),sofRequest.appName->c_str());
 
@@ -161,7 +162,7 @@ void CTestCADlg2::OnBnClickedBtnVerifySignedData()
 		return;
 	}
 
-	ns1__SOF_USCOREVerifySignedData sofRequest;
+	WS1__SOF_USCOREVerifySignedData sofRequest;
 	BOOL bResp = FALSE;
 
 	std::string szToken("9877654433");
@@ -172,10 +173,10 @@ void CTestCADlg2::OnBnClickedBtnVerifySignedData()
 		free(pbSignature);
 		pbSignature = NULL;
 	}
-	sofRequest.signValue = &szSign;
-	sofRequest.inData = &szRandom;
+	sofRequest.signValue = &CEnDecodeClass::StringA2W(szSign);
+	sofRequest.inData = &CEnDecodeClass::StringA2W(szRandom);
 
-	sofRequest.base64EncodeCert =&g_szbase64Cert;
+	sofRequest.base64EncodeCert =&CEnDecodeClass::StringA2W(g_szbase64Cert);
 
 	LOG_INFO("sofRequest.inData=%s,sofRequest.signValue=%s,sofRequest.base64EncodeCert=\r\n%s", szRandom.c_str(),szSign.c_str(),g_szbase64Cert.c_str());
 
@@ -198,13 +199,13 @@ void CTestCADlg2::OnBnClickedBtnVerifySignedData()
 void CTestCADlg2::OnBnClickedBtnQueryCerttrustlist()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	ns1__SOF_USCOREQueryCertTrustList sofRequest;
+	WS1__SOF_USCOREQueryCertTrustList sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
 	std::string szname("xzt");
 	//sofRequest.tokenId = &szToken;
-	sofRequest.fCtlAltname = &szname;
+	sofRequest.fCtlAltname = &CEnDecodeClass::StringA2W(szname);
 
 	LOG_INFO("SOF_QueryCertTrustList:tokenId=%s,sofRequest.fCtlAltname=%s", szToken.c_str(),
 		                                                                     sofRequest.fCtlAltname->c_str());
@@ -232,12 +233,12 @@ void CTestCADlg2::OnBnClickedBtnVerifySigneddatabyp7()
 		AfxMessageBox("请先单击SOF_SignDataByP7按钮，获得P7签名");
 		return;
 	}
-	ns1__SOF_USCOREVerifySignedDataByP7 sofRequest;
+	WS1__SOF_USCOREVerifySignedDataByP7 sofRequest;
 	BOOL bResp;
 
 	std::string szToken("9877654433");
 	//sofRequest.tokenId = &szToken;
-	sofRequest.pkcs7SignData =&g_szP7Sign;
+	sofRequest.pkcs7SignData =&CEnDecodeClass::StringA2W(g_szP7Sign);
 	LOG_INFO("SOF_VerifySignedDataByP7:sofRequest.pkcs7SignData=%s",sofRequest.pkcs7SignData->c_str());
 
 	int nReturn_ = soapSender::SOF_VerifySignedDataByP7(sofRequest, bResp);
@@ -258,7 +259,7 @@ void CTestCADlg2::OnBnClickedBtnVerifySigneddatabyp7()
 void CTestCADlg2::OnBnClickedBtnSetCerttrustlist()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	ns1__SOF_USCORESetCertTrustList sofRequest;
+	WS1__SOF_USCORESetCertTrustList sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
@@ -287,12 +288,12 @@ void CTestCADlg2::OnBnClickedBtnGetP7signdatainfo()
 		AfxMessageBox("请先单击SOF_SignDataByP7按钮，获得P7签名");
 		return;
 	}
-	ns1__SOF_USCOREGetP7SignDataInfo sofRequest;
+	WS1__SOF_USCOREGetP7SignDataInfo sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
 	//sofRequest.tokenId = &szToken;
-	sofRequest.pkcs7SignData =&g_szP7Sign;
+	sofRequest.pkcs7SignData =&CEnDecodeClass::StringA2W(g_szP7Sign);
 	sofRequest.type =1;
 	LOG_INFO("SOF_GetP7SignDataInfo:sofRequest.pkcs7SignData=%s,sofRequest.type=%d",sofRequest.pkcs7SignData->c_str(),
 		                                                            sofRequest.type);
@@ -320,14 +321,14 @@ void CTestCADlg2::OnBnClickedBtnVerifyTimestamp()
 		AfxMessageBox("时间戳为空，请先调用分别调用SOF_CreateTimeStampRequest，SOF_CreateTimeStampResponse函数");
 		return;
 	}
-	ns1__SOF_USCOREVerifyTimeStamp sofRequest;
+	WS1__SOF_USCOREVerifyTimeStamp sofRequest;
 	BOOL bResp;
 
 	std::string szToken("9877654433");
 	std::string szData("qwertasdf");
 	//sofRequest.tokenId = &szToken;
-	sofRequest.content =&szData;
-	sofRequest.tsResponseData = &g_szTimeStampRep;
+	sofRequest.content =&CEnDecodeClass::StringA2W(szData);
+	sofRequest.tsResponseData = &CEnDecodeClass::StringA2W(g_szTimeStampRep);
 
 	LOG_INFO("SOF_VerifyTimeStamp:sofRequest.content=%s,sofRequest.tsResponseData",sofRequest.content->c_str(),
 		                                                                        sofRequest.tsResponseData->c_str());
@@ -355,14 +356,14 @@ void CTestCADlg2::OnBnClickedBtnPubkeyEncrypt()
 		AfxMessageBox("证书为空，请先用主窗口的导出按钮导出证书");
 		return;
 	}
-	ns1__SOF_USCOREPubKeyEncrypt sofRequest;
+	WS1__SOF_USCOREPubKeyEncrypt sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
 	//sofRequest.tokenId = &szToken;
-	sofRequest.base64EncodeCert = &g_szbase64Cert;
+	sofRequest.base64EncodeCert = &CEnDecodeClass::StringA2W(g_szbase64Cert);
 	std::string szdata("asfweras");
-	sofRequest.inData =&szdata;
+	sofRequest.inData =&CEnDecodeClass::StringA2W(szdata);
 
 	LOG_INFO("SOF_PubKeyEncrypt:sofRequest.base64EncodeCert=\r\n%s\r\nsofRequest.inData=%s",
 		                                                               sofRequest.base64EncodeCert->c_str(),
@@ -387,7 +388,7 @@ void CTestCADlg2::OnBnClickedBtnPubkeyEncrypt()
 void CTestCADlg2::OnBnClickedBtnVerifysignedfile()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	ns1__SOF_USCOREVerifySignedFile sofRequest;
+	WS1__SOF_USCOREVerifySignedFile sofRequest;
 	BOOL bResp;
 
 	std::string szToken("9877654433");
@@ -411,7 +412,7 @@ void CTestCADlg2::OnBnClickedBtnVerifysignedfile()
 void CTestCADlg2::OnBnClickedBtnGetServercertificate()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	ns1__SOF_USCOREGetServerCertificate sofRequest;
+	WS1__SOF_USCOREGetServerCertificate sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
@@ -445,14 +446,14 @@ void CTestCADlg2::OnBnClickedBtnGetCertinfobyoid()
 		return;
 	}
 
-	ns1__SOF_USCOREGetCertInfoByOid sofRequest;
+	WS1__SOF_USCOREGetCertInfoByOid sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
 	//sofRequest.tokenId = &szToken;
-	sofRequest.base64EncodeCert = &g_szbase64Cert;
+	sofRequest.base64EncodeCert = &CEnDecodeClass::StringA2W(g_szbase64Cert);
 	std::string szdata("1.2.156.xxx");
-	sofRequest.oid = &szdata;
+	sofRequest.oid = &CEnDecodeClass::StringA2W(szdata);
 	LOG_INFO("SOF_GetCertInfoByOid:sofRequest.base64EncodeCert=%s,\r\nsofRequest.oid=%s",
 		sofRequest.base64EncodeCert->c_str(),
 		sofRequest.oid->c_str());
@@ -477,12 +478,12 @@ void CTestCADlg2::OnBnClickedBtnGetCertinfobyoid()
 void CTestCADlg2::OnBnClickedBtnDelCerttrustlist()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	ns1__SOF_USCOREDelCertTrustList sofRequest;
+	WS1__SOF_USCOREDelCertTrustList sofRequest;
 	std::string szResp;
 
 	//std::string szToken("xzt");
 	std::string szname("xzt");
-	sofRequest.fCtlAltname = &szname;//------没有token   xzt
+	sofRequest.fCtlAltname = &CEnDecodeClass::StringA2W(szname);//------没有token   xzt
 
 	LOG_INFO("SOF_DelCertTrustList:sofRequest.fCtlAltname=%s",sofRequest.fCtlAltname->c_str());
 
@@ -509,12 +510,12 @@ void CTestCADlg2::OnBnClickedBtnGetXmlsignatureinfo()
 		AfxMessageBox("请先调用SOF_SignDataXML函数");
 		return;
 	}
-	ns1__SOF_USCOREGetXMLSignatureInfo sofRequest;
+	WS1__SOF_USCOREGetXMLSignatureInfo sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
 	//sofRequest.tokenId = &szToken;
-	sofRequest.XMLSignedData =&g_szXmlCert;
+	sofRequest.XMLSignedData =&CEnDecodeClass::StringA2W(g_szXmlCert);
 	sofRequest.type = 1;
 
 	LOG_INFO("SOF_GetXMLSignatureInfo:sofRequest.XMLSignedData=%s,sofRequest.type=%d",sofRequest.XMLSignedData->c_str(),
@@ -543,12 +544,12 @@ void CTestCADlg2::OnBnClickedBtnVerifySigneddataxml()
 		AfxMessageBox("请先调用SOF_SignDataXML函数");
 		return;
 	}
-	ns1__SOF_USCOREVerifySignedDataXML sofRequest;
+	WS1__SOF_USCOREVerifySignedDataXML sofRequest;
 	BOOL bResp = FALSE;
 
 	std::string szToken("9877654433");
 	//sofRequest.tokenId = &szToken;
-	sofRequest.inData =&g_szXmlCert;
+	sofRequest.inData =&CEnDecodeClass::StringA2W(g_szXmlCert);
 
 	LOG_INFO("SOF_VerifySignedDataXML:sofRequest.inData=%s", sofRequest.inData->c_str());
 
@@ -570,13 +571,13 @@ void CTestCADlg2::OnBnClickedBtnVerifySigneddataxml()
 void CTestCADlg2::OnBnClickedBtnSignData()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	ns1__SOF_USCORESignData sofRequest;
+	WS1__SOF_USCORESignData sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
 	//sofRequest.tokenId = &szToken;
 	std::string szdata("nanjingca");
-	sofRequest.inData = &szdata;
+	sofRequest.inData = &CEnDecodeClass::StringA2W(szdata);
 	LOG_INFO("SOF_SignData:sofRequest.inData=%s",sofRequest.inData->c_str());
 
 	int nReturn_ = soapSender::SOF_SignData(sofRequest, szResp);
@@ -597,7 +598,7 @@ void CTestCADlg2::OnBnClickedBtnSignData()
 void CTestCADlg2::OnBnClickedBtnSignFile()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	ns1__SOF_USCORESignFile sofRequest;
+	WS1__SOF_USCORESignFile sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
@@ -625,12 +626,12 @@ void CTestCADlg2::OnBnClickedBtnPrikeyDecrypt()
 	{
 		AfxMessageBox("请先单击SOF_PubKeyEncrypt产生密文");
 	}
-	ns1__SOF_USCOREPriKeyDecrypt sofRequest;
+	WS1__SOF_USCOREPriKeyDecrypt sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
 	//sofRequest.tokenId = &szToken;
-	sofRequest.inData = &g_szEncrytFile;
+	sofRequest.inData = &CEnDecodeClass::StringA2W(g_szEncrytFile);
 	LOG_INFO("SOF_PriKeyDecrypt:sofRequest.inData=%s",sofRequest.inData->c_str());
 
 	int nReturn_ = soapSender::SOF_PriKeyDecrypt(sofRequest, szResp);
@@ -651,7 +652,7 @@ void CTestCADlg2::OnBnClickedBtnPrikeyDecrypt()
 void CTestCADlg2::OnBnClickedBtnSetWebappname()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	ns1__SOF_USCORESetWebAppName sofRequest;
+	WS1__SOF_USCORESetWebAppName sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
@@ -675,7 +676,7 @@ void CTestCADlg2::OnBnClickedBtnSetWebappname()
 void CTestCADlg2::OnBnClickedBtnGetSignmethod()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	ns1__SOF_USCOREGetSignMethod sofRequest;
+	WS1__SOF_USCOREGetSignMethod sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
@@ -700,7 +701,7 @@ void CTestCADlg2::OnBnClickedBtnGetSignmethod()
 void CTestCADlg2::OnBnClickedBtnSetEncryptmethod()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	ns1__SOF_USCORESetEncryptMethod sofRequest;
+	WS1__SOF_USCORESetEncryptMethod sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
@@ -726,13 +727,13 @@ void CTestCADlg2::OnBnClickedBtnSetEncryptmethod()
 void CTestCADlg2::OnBnClickedBtnCreateTimestamprequest()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	ns1__SOF_USCORECreateTimeStampRequest sofRequest;
+	WS1__SOF_USCORECreateTimeStampRequest sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
 	std::string szData("qwertasdf");
 	//sofRequest.tokenId = &szToken;
-	sofRequest.inData =&szData;
+	sofRequest.inData =&CEnDecodeClass::StringA2W(szData);
 	LOG_INFO("SOF_CreateTimeStampRequest:sofRequest.inData=%s",sofRequest.inData->c_str());
 
 	int nReturn_ = soapSender::SOF_CreateTimeStampRequest(sofRequest, szResp);
@@ -754,7 +755,7 @@ void CTestCADlg2::OnBnClickedBtnCreateTimestamprequest()
 void CTestCADlg2::OnBnClickedBtnGetEncryptmethod()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	ns1__SOF_USCOREGetEncryptMethod sofRequest;
+	WS1__SOF_USCOREGetEncryptMethod sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
@@ -785,12 +786,12 @@ void CTestCADlg2::OnBnClickedBtnCreateTimestampresponse()
 		AfxMessageBox("请先调用SOF_CreateTimeStampRequest创建时间戳请求");
 		return;
 	}
-	ns1__SOF_USCORECreateTimeStampResponse sofRequest;
+	WS1__SOF_USCORECreateTimeStampResponse sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
 	//sofRequest.tokenId = &szToken;
-	sofRequest.inData =&g_szTimeStampRes;
+	sofRequest.inData =&CEnDecodeClass::StringA2W(g_szTimeStampRes);
 	LOG_INFO("SOF_CreateTimeStampResponse:sofRequest.inData=%s",sofRequest.inData);
 
 	int nReturn_ = soapSender::SOF_CreateTimeStampResponse(sofRequest, szResp);
@@ -817,12 +818,12 @@ void CTestCADlg2::OnBnClickedBtnValidateCert()
 		AfxMessageBox("证书为空，请先用主窗口的导出按钮导出证书");
 		return;
 	}
-	ns1__SOF_USCOREValidateCert sofRequest;
+	WS1__SOF_USCOREValidateCert sofRequest;
 	int nResp = 0;
 
 	std::string szToken("9877654433");
 	//sofRequest.tokenId = &szToken;
-	sofRequest.base64EncodeCert = &g_szbase64Cert;
+	sofRequest.base64EncodeCert = &CEnDecodeClass::StringA2W(g_szbase64Cert);
 
 	LOG_INFO("SOF_ValidateCert:sofRequest.base64EncodeCert=%s",
 		sofRequest.base64EncodeCert->c_str());
@@ -847,7 +848,7 @@ void CTestCADlg2::OnBnClickedBtnValidateCert()
 void CTestCADlg2::OnBnClickedBtnDecryptFile()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	ns1__SOF_USCOREDecryptFile sofRequest;
+	WS1__SOF_USCOREDecryptFile sofRequest;
 	BOOL bResp = FALSE;
 
 	std::string szToken("9877654433");
@@ -871,7 +872,7 @@ void CTestCADlg2::OnBnClickedBtnDecryptFile()
 void CTestCADlg2::OnBnClickedBtnSetSignmethod()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	ns1__SOF_USCORESetSignMethod sofRequest;
+	WS1__SOF_USCORESetSignMethod sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
@@ -904,12 +905,12 @@ void CTestCADlg2::OnBnClickedBtnGetTimestampinfo()
 		AfxMessageBox("时间戳为空，请先调用分别调用SOF_CreateTimeStampRequest，SOF_CreateTimeStampResponse函数");
 		return;
 	}
-	ns1__SOF_USCOREGetTimeStampInfo sofRequest;
+	WS1__SOF_USCOREGetTimeStampInfo sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
 	//sofRequest.tokenId = &szToken;
-	sofRequest.tsResponseData = &g_szTimeStampRep;
+	sofRequest.tsResponseData = &CEnDecodeClass::StringA2W(g_szTimeStampRep);
 	LOG_INFO("SOF_GetTimeStampInfo:sofRequest.tsResponseData=%s",sofRequest.tsResponseData->c_str());
 
 	int nReturn_ = soapSender::SOF_GetTimeStampInfo(sofRequest, szResp);
@@ -930,13 +931,13 @@ void CTestCADlg2::OnBnClickedBtnGetTimestampinfo()
 void CTestCADlg2::OnBnClickedBtnSignDatabyp7()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	ns1__SOF_USCORESignDataByP7 sofRequest;
+	WS1__SOF_USCORESignDataByP7 sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
 	//sofRequest.tokenId = &szToken;
 	std::string szdata("xztzhonghua");
-	sofRequest.inData =&szdata;
+	sofRequest.inData =&CEnDecodeClass::StringA2W(szdata);
 	LOG_INFO("SOF_SignDataByP7:sofRequest.inData=%s",sofRequest.inData->c_str());
 
 	int nReturn_ = soapSender::SOF_SignDataByP7(sofRequest, szResp);
@@ -958,7 +959,7 @@ void CTestCADlg2::OnBnClickedBtnSignDatabyp7()
 void CTestCADlg2::OnBnClickedBtnEncryptFile()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	ns1__SOF_USCOREEncryptFile sofRequest;
+	WS1__SOF_USCOREEncryptFile sofRequest;
 	BOOL bResp = FALSE;
 
 	std::string szToken("9877654433");
@@ -982,13 +983,13 @@ void CTestCADlg2::OnBnClickedBtnEncryptFile()
 void CTestCADlg2::OnBnClickedBtnSignDataxml()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	ns1__SOF_USCORESignDataXML sofRequest;
+	WS1__SOF_USCORESignDataXML sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
 	//sofRequest.tokenId = &szToken;
 	std::string szData("<note><to>George</to><from>John</from><heading>Reminder</heading><body>Don't forget the meeting!</body></note>");
-	sofRequest.inData =&szData;
+	sofRequest.inData =&CEnDecodeClass::StringA2W(szData);
 
 	LOG_INFO("SOF_SignDataXML:sofRequest.inData=\r\n%s",sofRequest.inData->c_str());
 
@@ -1017,12 +1018,12 @@ void CTestCADlg2::OnBnClickedBtnDecryptData()
 		AfxMessageBox("请先用SOF_EncryptData进行数据加密");
 		return;
 	}
-	ns1__SOF_USCOREDecryptData sofRequest;
+	WS1__SOF_USCOREDecryptData sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
 	//sofRequest.tokenId = &szToken;
-	sofRequest.inData = &g_EncryptData;
+	sofRequest.inData = &CEnDecodeClass::StringA2W(g_EncryptData);
 
 	int nReturn_ = soapSender::SOF_DecryptData(sofRequest, szResp);
 	if (0 == nReturn_)
@@ -1042,7 +1043,7 @@ void CTestCADlg2::OnBnClickedBtnDecryptData()
 void CTestCADlg2::OnBnClickedBtnQueryCerttrustlistaltnames()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	ns1__SOF_USCOREQueryCertTrustListAltNames sofRequest;
+	WS1__SOF_USCOREQueryCertTrustListAltNames sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
@@ -1073,12 +1074,12 @@ void CTestCADlg2::OnBnClickedBtnGetCertinfo()
 		AfxMessageBox("请在主界面通过证书导出按钮导出证书");
 		return ;
 	}
-	ns1__SOF_USCOREGetCertInfo sofRequest;
+	WS1__SOF_USCOREGetCertInfo sofRequest;
 	std::string szResp;
 
 	std::string szToken("9877654433");
 	//sofRequest.tokenId = &szToken;
-	sofRequest.base64EncodeCert = &g_szbase64Cert;
+	sofRequest.base64EncodeCert = &CEnDecodeClass::StringA2W(g_szbase64Cert);
 	sofRequest.type = 1;
 	LOG_INFO("SOF_GetCertInfo:sofRequest.base64EncodeCert=%s,\r\nsofRequest.type=%d",
 													   sofRequest.base64EncodeCert->c_str(),
@@ -1102,13 +1103,13 @@ void CTestCADlg2::OnBnClickedBtnGetCertinfo()
 void CTestCADlg2::OnBnClickedBtnEncryptData()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	ns1__SOF_USCOREEncryptData sofRequest;
+	WS1__SOF_USCOREEncryptData sofRequest;
 	std::string szResp;
 
 	std::string szData("zxcvbn");
 	std::string szToken("9877654433");
 	//sofRequest.tokenId = &szToken;
-	sofRequest.inData = &szData;
+	sofRequest.inData = &CEnDecodeClass::StringA2W(szData);
 
 	int nReturn_ = soapSender::SOF_EncryptData(sofRequest, szResp);
 	if (0 == nReturn_)
