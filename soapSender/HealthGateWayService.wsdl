@@ -1,0 +1,1487 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="HealthGateWayServiceService" targetNamespace="http://impl.service.ws.jsca.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://impl.service.ws.jsca.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:tns="http://impl.service.ws.jsca.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://impl.service.ws.jsca.com/" version="1.0">
+
+  <xs:element name="DeleteFile" type="tns:DeleteFile"/>
+
+  <xs:element name="DeleteFileResponse" type="tns:DeleteFileResponse"/>
+
+  <xs:element name="GetFile" type="tns:GetFile"/>
+
+  <xs:element name="GetFileResponse" type="tns:GetFileResponse"/>
+
+  <xs:element name="SOF_CreateTimeStampRequest" type="tns:SOF_CreateTimeStampRequest"/>
+
+  <xs:element name="SOF_CreateTimeStampRequestResponse" type="tns:SOF_CreateTimeStampRequestResponse"/>
+
+  <xs:element name="SOF_CreateTimeStampResponse" type="tns:SOF_CreateTimeStampResponse"/>
+
+  <xs:element name="SOF_CreateTimeStampResponseResponse" type="tns:SOF_CreateTimeStampResponseResponse"/>
+
+  <xs:element name="SOF_DecryptData" type="tns:SOF_DecryptData"/>
+
+  <xs:element name="SOF_DecryptDataResponse" type="tns:SOF_DecryptDataResponse"/>
+
+  <xs:element name="SOF_DecryptFile" type="tns:SOF_DecryptFile"/>
+
+  <xs:element name="SOF_DecryptFileResponse" type="tns:SOF_DecryptFileResponse"/>
+
+  <xs:element name="SOF_DelCertTrustList" type="tns:SOF_DelCertTrustList"/>
+
+  <xs:element name="SOF_DelCertTrustListResponse" type="tns:SOF_DelCertTrustListResponse"/>
+
+  <xs:element name="SOF_EncryptData" type="tns:SOF_EncryptData"/>
+
+  <xs:element name="SOF_EncryptDataResponse" type="tns:SOF_EncryptDataResponse"/>
+
+  <xs:element name="SOF_EncryptFile" type="tns:SOF_EncryptFile"/>
+
+  <xs:element name="SOF_EncryptFileResponse" type="tns:SOF_EncryptFileResponse"/>
+
+  <xs:element name="SOF_GenRandom" type="tns:SOF_GenRandom"/>
+
+  <xs:element name="SOF_GenRandomResponse" type="tns:SOF_GenRandomResponse"/>
+
+  <xs:element name="SOF_GetCertInfo" type="tns:SOF_GetCertInfo"/>
+
+  <xs:element name="SOF_GetCertInfoByOid" type="tns:SOF_GetCertInfoByOid"/>
+
+  <xs:element name="SOF_GetCertInfoByOidResponse" type="tns:SOF_GetCertInfoByOidResponse"/>
+
+  <xs:element name="SOF_GetCertInfoResponse" type="tns:SOF_GetCertInfoResponse"/>
+
+  <xs:element name="SOF_GetEncryptMethod" type="tns:SOF_GetEncryptMethod"/>
+
+  <xs:element name="SOF_GetEncryptMethodResponse" type="tns:SOF_GetEncryptMethodResponse"/>
+
+  <xs:element name="SOF_GetInstance" type="tns:SOF_GetInstance"/>
+
+  <xs:element name="SOF_GetInstanceResponse" type="tns:SOF_GetInstanceResponse"/>
+
+  <xs:element name="SOF_GetP7SignDataInfo" type="tns:SOF_GetP7SignDataInfo"/>
+
+  <xs:element name="SOF_GetP7SignDataInfoResponse" type="tns:SOF_GetP7SignDataInfoResponse"/>
+
+  <xs:element name="SOF_GetServerCertificate" type="tns:SOF_GetServerCertificate"/>
+
+  <xs:element name="SOF_GetServerCertificateResponse" type="tns:SOF_GetServerCertificateResponse"/>
+
+  <xs:element name="SOF_GetSignMethod" type="tns:SOF_GetSignMethod"/>
+
+  <xs:element name="SOF_GetSignMethodResponse" type="tns:SOF_GetSignMethodResponse"/>
+
+  <xs:element name="SOF_GetTimeStampInfo" type="tns:SOF_GetTimeStampInfo"/>
+
+  <xs:element name="SOF_GetTimeStampInfoResponse" type="tns:SOF_GetTimeStampInfoResponse"/>
+
+  <xs:element name="SOF_GetXMLSignatureInfo" type="tns:SOF_GetXMLSignatureInfo"/>
+
+  <xs:element name="SOF_GetXMLSignatureInfoResponse" type="tns:SOF_GetXMLSignatureInfoResponse"/>
+
+  <xs:element name="SOF_PriKeyDecrypt" type="tns:SOF_PriKeyDecrypt"/>
+
+  <xs:element name="SOF_PriKeyDecryptResponse" type="tns:SOF_PriKeyDecryptResponse"/>
+
+  <xs:element name="SOF_PubKeyEncrypt" type="tns:SOF_PubKeyEncrypt"/>
+
+  <xs:element name="SOF_PubKeyEncryptResponse" type="tns:SOF_PubKeyEncryptResponse"/>
+
+  <xs:element name="SOF_QueryCertTrustList" type="tns:SOF_QueryCertTrustList"/>
+
+  <xs:element name="SOF_QueryCertTrustListAltNames" type="tns:SOF_QueryCertTrustListAltNames"/>
+
+  <xs:element name="SOF_QueryCertTrustListAltNamesResponse" type="tns:SOF_QueryCertTrustListAltNamesResponse"/>
+
+  <xs:element name="SOF_QueryCertTrustListResponse" type="tns:SOF_QueryCertTrustListResponse"/>
+
+  <xs:element name="SOF_SetCertTrustList" type="tns:SOF_SetCertTrustList"/>
+
+  <xs:element name="SOF_SetCertTrustListResponse" type="tns:SOF_SetCertTrustListResponse"/>
+
+  <xs:element name="SOF_SetEncryptMethod" type="tns:SOF_SetEncryptMethod"/>
+
+  <xs:element name="SOF_SetEncryptMethodResponse" type="tns:SOF_SetEncryptMethodResponse"/>
+
+  <xs:element name="SOF_SetSignMethod" type="tns:SOF_SetSignMethod"/>
+
+  <xs:element name="SOF_SetSignMethodResponse" type="tns:SOF_SetSignMethodResponse"/>
+
+  <xs:element name="SOF_SetWebAppName" type="tns:SOF_SetWebAppName"/>
+
+  <xs:element name="SOF_SetWebAppNameResponse" type="tns:SOF_SetWebAppNameResponse"/>
+
+  <xs:element name="SOF_SignData" type="tns:SOF_SignData"/>
+
+  <xs:element name="SOF_SignDataByP7" type="tns:SOF_SignDataByP7"/>
+
+  <xs:element name="SOF_SignDataByP7Response" type="tns:SOF_SignDataByP7Response"/>
+
+  <xs:element name="SOF_SignDataResponse" type="tns:SOF_SignDataResponse"/>
+
+  <xs:element name="SOF_SignDataXML" type="tns:SOF_SignDataXML"/>
+
+  <xs:element name="SOF_SignDataXMLResponse" type="tns:SOF_SignDataXMLResponse"/>
+
+  <xs:element name="SOF_SignFile" type="tns:SOF_SignFile"/>
+
+  <xs:element name="SOF_SignFileResponse" type="tns:SOF_SignFileResponse"/>
+
+  <xs:element name="SOF_ValidateCert" type="tns:SOF_ValidateCert"/>
+
+  <xs:element name="SOF_ValidateCertResponse" type="tns:SOF_ValidateCertResponse"/>
+
+  <xs:element name="SOF_VerifySignedData" type="tns:SOF_VerifySignedData"/>
+
+  <xs:element name="SOF_VerifySignedDataByP7" type="tns:SOF_VerifySignedDataByP7"/>
+
+  <xs:element name="SOF_VerifySignedDataByP7Response" type="tns:SOF_VerifySignedDataByP7Response"/>
+
+  <xs:element name="SOF_VerifySignedDataResponse" type="tns:SOF_VerifySignedDataResponse"/>
+
+  <xs:element name="SOF_VerifySignedDataXML" type="tns:SOF_VerifySignedDataXML"/>
+
+  <xs:element name="SOF_VerifySignedDataXMLResponse" type="tns:SOF_VerifySignedDataXMLResponse"/>
+
+  <xs:element name="SOF_VerifySignedFile" type="tns:SOF_VerifySignedFile"/>
+
+  <xs:element name="SOF_VerifySignedFileResponse" type="tns:SOF_VerifySignedFileResponse"/>
+
+  <xs:element name="SOF_VerifyTimeStamp" type="tns:SOF_VerifyTimeStamp"/>
+
+  <xs:element name="SOF_VerifyTimeStampResponse" type="tns:SOF_VerifyTimeStampResponse"/>
+
+  <xs:complexType name="SOF_VerifySignedData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="base64EncodeCert" type="xs:string"/>
+      <xs:element minOccurs="0" name="inData" type="xs:string"/>
+      <xs:element minOccurs="0" name="signValue" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_VerifySignedDataResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_QueryCertTrustList">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="fCtlAltname" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_QueryCertTrustListResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_VerifySignedDataByP7">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="pkcs7SignData" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_VerifySignedDataByP7Response">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_SetCertTrustList">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="fCtlAltname" type="xs:string"/>
+      <xs:element minOccurs="0" name="fCtlContent" type="xs:string"/>
+      <xs:element name="fCtlContentLen" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_SetCertTrustListResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_GetP7SignDataInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="pkcs7SignData" type="xs:string"/>
+      <xs:element name="type" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_GetP7SignDataInfoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_VerifyTimeStamp">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="content" type="xs:string"/>
+      <xs:element minOccurs="0" name="tsResponseData" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_VerifyTimeStampResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_PubKeyEncrypt">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="base64EncodeCert" type="xs:string"/>
+      <xs:element minOccurs="0" name="inData" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_PubKeyEncryptResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_VerifySignedFile">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="base64EncodeCert" type="xs:string"/>
+      <xs:element minOccurs="0" name="inFile" type="xs:string"/>
+      <xs:element minOccurs="0" name="signValue" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_VerifySignedFileResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_GetServerCertificate">
+    <xs:sequence>
+      <xs:element name="certUsage" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_GetServerCertificateResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_GetCertInfoByOid">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="base64EncodeCert" type="xs:string"/>
+      <xs:element minOccurs="0" name="oid" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_GetCertInfoByOidResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_DelCertTrustList">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="fCtlAltname" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_DelCertTrustListResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_GetXMLSignatureInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="XMLSignedData" type="xs:string"/>
+      <xs:element name="type" type="xs:short"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_GetXMLSignatureInfoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_VerifySignedDataXML">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="inData" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_VerifySignedDataXMLResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_SignData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="inData" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_SignDataResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_SignFile">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="inFile" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_SignFileResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_GetInstance">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="appName" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_GetInstanceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:sofSecurityEngineDeal"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="sofSecurityEngineDeal">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="alias" type="xs:string"/>
+      <xs:element minOccurs="0" name="encryption" type="xs:string"/>
+      <xs:element minOccurs="0" name="sessionID" type="xs:string"/>
+      <xs:element minOccurs="0" name="signature" type="xs:string"/>
+      <xs:element minOccurs="0" name="valcrl" type="xs:string"/>
+      <xs:element minOccurs="0" name="valpath" type="xs:string"/>
+      <xs:element minOccurs="0" name="valtime" type="xs:string"/>
+      <xs:element minOccurs="0" name="webAppName" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_PriKeyDecrypt">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="inData" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_PriKeyDecryptResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_GenRandom">
+    <xs:sequence>
+      <xs:element name="len" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_GenRandomResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_SetWebAppName">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="webAppName" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_SetWebAppNameResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_GetSignMethod">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_GetSignMethodResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_SetEncryptMethod">
+    <xs:sequence>
+      <xs:element name="encryptMethod" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_SetEncryptMethodResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_CreateTimeStampRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="inData" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_CreateTimeStampRequestResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_GetEncryptMethod">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_GetEncryptMethodResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_CreateTimeStampResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="inData" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_CreateTimeStampResponseResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_ValidateCert">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="base64EncodeCert" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_ValidateCertResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DeleteFile">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="fileName" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DeleteFileResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GetFile">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="requestFileName" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GetFileResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:base64Binary"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_DecryptFile">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="key" type="xs:string"/>
+      <xs:element minOccurs="0" name="inFile" type="xs:string"/>
+      <xs:element minOccurs="0" name="outFile" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_DecryptFileResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_SetSignMethod">
+    <xs:sequence>
+      <xs:element name="signMethod" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_SetSignMethodResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_GetTimeStampInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="tsResponseData" type="xs:string"/>
+      <xs:element name="type" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_GetTimeStampInfoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_SignDataByP7">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="inData" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_SignDataByP7Response">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_EncryptFile">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="key" type="xs:string"/>
+      <xs:element minOccurs="0" name="inFile" type="xs:string"/>
+      <xs:element minOccurs="0" name="outFile" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_EncryptFileResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_SignDataXML">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="inData" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_SignDataXMLResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_DecryptData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="key" type="xs:string"/>
+      <xs:element minOccurs="0" name="inData" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_DecryptDataResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_QueryCertTrustListAltNames">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_QueryCertTrustListAltNamesResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_GetCertInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="base64EncodeCert" type="xs:string"/>
+      <xs:element name="type" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_GetCertInfoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_EncryptData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="key" type="xs:string"/>
+      <xs:element minOccurs="0" name="inData" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SOF_EncryptDataResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="SOF_VerifyTimeStamp">
+    <wsdl:part name="parameters" element="tns:SOF_VerifyTimeStamp">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_SignDataByP7Response">
+    <wsdl:part name="parameters" element="tns:SOF_SignDataByP7Response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_GetP7SignDataInfoResponse">
+    <wsdl:part name="parameters" element="tns:SOF_GetP7SignDataInfoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_GetServerCertificateResponse">
+    <wsdl:part name="parameters" element="tns:SOF_GetServerCertificateResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_PriKeyDecryptResponse">
+    <wsdl:part name="parameters" element="tns:SOF_PriKeyDecryptResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_SetEncryptMethod">
+    <wsdl:part name="parameters" element="tns:SOF_SetEncryptMethod">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_GetTimeStampInfo">
+    <wsdl:part name="parameters" element="tns:SOF_GetTimeStampInfo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_CreateTimeStampResponseResponse">
+    <wsdl:part name="parameters" element="tns:SOF_CreateTimeStampResponseResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_GetServerCertificate">
+    <wsdl:part name="parameters" element="tns:SOF_GetServerCertificate">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_SetSignMethod">
+    <wsdl:part name="parameters" element="tns:SOF_SetSignMethod">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_VerifySignedFileResponse">
+    <wsdl:part name="parameters" element="tns:SOF_VerifySignedFileResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_SignDataXML">
+    <wsdl:part name="parameters" element="tns:SOF_SignDataXML">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_ValidateCertResponse">
+    <wsdl:part name="parameters" element="tns:SOF_ValidateCertResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_DelCertTrustListResponse">
+    <wsdl:part name="parameters" element="tns:SOF_DelCertTrustListResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_GetP7SignDataInfo">
+    <wsdl:part name="parameters" element="tns:SOF_GetP7SignDataInfo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_GetXMLSignatureInfo">
+    <wsdl:part name="parameters" element="tns:SOF_GetXMLSignatureInfo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_SetWebAppName">
+    <wsdl:part name="parameters" element="tns:SOF_SetWebAppName">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_QueryCertTrustListAltNamesResponse">
+    <wsdl:part name="parameters" element="tns:SOF_QueryCertTrustListAltNamesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_DecryptFile">
+    <wsdl:part name="parameters" element="tns:SOF_DecryptFile">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_SetSignMethodResponse">
+    <wsdl:part name="parameters" element="tns:SOF_SetSignMethodResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_SignDataResponse">
+    <wsdl:part name="parameters" element="tns:SOF_SignDataResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_VerifySignedData">
+    <wsdl:part name="parameters" element="tns:SOF_VerifySignedData">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_GetCertInfo">
+    <wsdl:part name="parameters" element="tns:SOF_GetCertInfo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_GetCertInfoResponse">
+    <wsdl:part name="parameters" element="tns:SOF_GetCertInfoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_GetSignMethodResponse">
+    <wsdl:part name="parameters" element="tns:SOF_GetSignMethodResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_SetEncryptMethodResponse">
+    <wsdl:part name="parameters" element="tns:SOF_SetEncryptMethodResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DeleteFileResponse">
+    <wsdl:part name="parameters" element="tns:DeleteFileResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_GetEncryptMethod">
+    <wsdl:part name="parameters" element="tns:SOF_GetEncryptMethod">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_QueryCertTrustListResponse">
+    <wsdl:part name="parameters" element="tns:SOF_QueryCertTrustListResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_GenRandom">
+    <wsdl:part name="parameters" element="tns:SOF_GenRandom">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_VerifySignedDataByP7Response">
+    <wsdl:part name="parameters" element="tns:SOF_VerifySignedDataByP7Response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_PubKeyEncrypt">
+    <wsdl:part name="parameters" element="tns:SOF_PubKeyEncrypt">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_GetXMLSignatureInfoResponse">
+    <wsdl:part name="parameters" element="tns:SOF_GetXMLSignatureInfoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_VerifySignedDataByP7">
+    <wsdl:part name="parameters" element="tns:SOF_VerifySignedDataByP7">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_EncryptData">
+    <wsdl:part name="parameters" element="tns:SOF_EncryptData">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_GetEncryptMethodResponse">
+    <wsdl:part name="parameters" element="tns:SOF_GetEncryptMethodResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_QueryCertTrustListAltNames">
+    <wsdl:part name="parameters" element="tns:SOF_QueryCertTrustListAltNames">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_SetCertTrustListResponse">
+    <wsdl:part name="parameters" element="tns:SOF_SetCertTrustListResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_GetInstance">
+    <wsdl:part name="parameters" element="tns:SOF_GetInstance">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_GetInstanceResponse">
+    <wsdl:part name="parameters" element="tns:SOF_GetInstanceResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_SignData">
+    <wsdl:part name="parameters" element="tns:SOF_SignData">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_DecryptDataResponse">
+    <wsdl:part name="parameters" element="tns:SOF_DecryptDataResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_VerifySignedDataResponse">
+    <wsdl:part name="parameters" element="tns:SOF_VerifySignedDataResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_SetCertTrustList">
+    <wsdl:part name="parameters" element="tns:SOF_SetCertTrustList">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_SignFileResponse">
+    <wsdl:part name="parameters" element="tns:SOF_SignFileResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_EncryptDataResponse">
+    <wsdl:part name="parameters" element="tns:SOF_EncryptDataResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetFileResponse">
+    <wsdl:part name="parameters" element="tns:GetFileResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_GetCertInfoByOid">
+    <wsdl:part name="parameters" element="tns:SOF_GetCertInfoByOid">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_ValidateCert">
+    <wsdl:part name="parameters" element="tns:SOF_ValidateCert">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_VerifySignedFile">
+    <wsdl:part name="parameters" element="tns:SOF_VerifySignedFile">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DeleteFile">
+    <wsdl:part name="parameters" element="tns:DeleteFile">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_CreateTimeStampRequest">
+    <wsdl:part name="parameters" element="tns:SOF_CreateTimeStampRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_EncryptFile">
+    <wsdl:part name="parameters" element="tns:SOF_EncryptFile">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetFile">
+    <wsdl:part name="parameters" element="tns:GetFile">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_SetWebAppNameResponse">
+    <wsdl:part name="parameters" element="tns:SOF_SetWebAppNameResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_QueryCertTrustList">
+    <wsdl:part name="parameters" element="tns:SOF_QueryCertTrustList">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_GetSignMethod">
+    <wsdl:part name="parameters" element="tns:SOF_GetSignMethod">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_DecryptData">
+    <wsdl:part name="parameters" element="tns:SOF_DecryptData">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_DecryptFileResponse">
+    <wsdl:part name="parameters" element="tns:SOF_DecryptFileResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_GetCertInfoByOidResponse">
+    <wsdl:part name="parameters" element="tns:SOF_GetCertInfoByOidResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_VerifyTimeStampResponse">
+    <wsdl:part name="parameters" element="tns:SOF_VerifyTimeStampResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_VerifySignedDataXML">
+    <wsdl:part name="parameters" element="tns:SOF_VerifySignedDataXML">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_GenRandomResponse">
+    <wsdl:part name="parameters" element="tns:SOF_GenRandomResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_EncryptFileResponse">
+    <wsdl:part name="parameters" element="tns:SOF_EncryptFileResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_DelCertTrustList">
+    <wsdl:part name="parameters" element="tns:SOF_DelCertTrustList">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_VerifySignedDataXMLResponse">
+    <wsdl:part name="parameters" element="tns:SOF_VerifySignedDataXMLResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_SignDataByP7">
+    <wsdl:part name="parameters" element="tns:SOF_SignDataByP7">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_PubKeyEncryptResponse">
+    <wsdl:part name="parameters" element="tns:SOF_PubKeyEncryptResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_SignDataXMLResponse">
+    <wsdl:part name="parameters" element="tns:SOF_SignDataXMLResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_SignFile">
+    <wsdl:part name="parameters" element="tns:SOF_SignFile">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_CreateTimeStampResponse">
+    <wsdl:part name="parameters" element="tns:SOF_CreateTimeStampResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_PriKeyDecrypt">
+    <wsdl:part name="parameters" element="tns:SOF_PriKeyDecrypt">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_GetTimeStampInfoResponse">
+    <wsdl:part name="parameters" element="tns:SOF_GetTimeStampInfoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SOF_CreateTimeStampRequestResponse">
+    <wsdl:part name="parameters" element="tns:SOF_CreateTimeStampRequestResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="HealthGateWayService">
+    <wsdl:operation name="SOF_VerifySignedData">
+      <wsdl:input name="SOF_VerifySignedData" message="tns:SOF_VerifySignedData">
+    </wsdl:input>
+      <wsdl:output name="SOF_VerifySignedDataResponse" message="tns:SOF_VerifySignedDataResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_QueryCertTrustList">
+      <wsdl:input name="SOF_QueryCertTrustList" message="tns:SOF_QueryCertTrustList">
+    </wsdl:input>
+      <wsdl:output name="SOF_QueryCertTrustListResponse" message="tns:SOF_QueryCertTrustListResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_VerifySignedDataByP7">
+      <wsdl:input name="SOF_VerifySignedDataByP7" message="tns:SOF_VerifySignedDataByP7">
+    </wsdl:input>
+      <wsdl:output name="SOF_VerifySignedDataByP7Response" message="tns:SOF_VerifySignedDataByP7Response">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_SetCertTrustList">
+      <wsdl:input name="SOF_SetCertTrustList" message="tns:SOF_SetCertTrustList">
+    </wsdl:input>
+      <wsdl:output name="SOF_SetCertTrustListResponse" message="tns:SOF_SetCertTrustListResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_GetP7SignDataInfo">
+      <wsdl:input name="SOF_GetP7SignDataInfo" message="tns:SOF_GetP7SignDataInfo">
+    </wsdl:input>
+      <wsdl:output name="SOF_GetP7SignDataInfoResponse" message="tns:SOF_GetP7SignDataInfoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_VerifyTimeStamp">
+      <wsdl:input name="SOF_VerifyTimeStamp" message="tns:SOF_VerifyTimeStamp">
+    </wsdl:input>
+      <wsdl:output name="SOF_VerifyTimeStampResponse" message="tns:SOF_VerifyTimeStampResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_PubKeyEncrypt">
+      <wsdl:input name="SOF_PubKeyEncrypt" message="tns:SOF_PubKeyEncrypt">
+    </wsdl:input>
+      <wsdl:output name="SOF_PubKeyEncryptResponse" message="tns:SOF_PubKeyEncryptResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_VerifySignedFile">
+      <wsdl:input name="SOF_VerifySignedFile" message="tns:SOF_VerifySignedFile">
+    </wsdl:input>
+      <wsdl:output name="SOF_VerifySignedFileResponse" message="tns:SOF_VerifySignedFileResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_GetServerCertificate">
+      <wsdl:input name="SOF_GetServerCertificate" message="tns:SOF_GetServerCertificate">
+    </wsdl:input>
+      <wsdl:output name="SOF_GetServerCertificateResponse" message="tns:SOF_GetServerCertificateResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_GetCertInfoByOid">
+      <wsdl:input name="SOF_GetCertInfoByOid" message="tns:SOF_GetCertInfoByOid">
+    </wsdl:input>
+      <wsdl:output name="SOF_GetCertInfoByOidResponse" message="tns:SOF_GetCertInfoByOidResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_DelCertTrustList">
+      <wsdl:input name="SOF_DelCertTrustList" message="tns:SOF_DelCertTrustList">
+    </wsdl:input>
+      <wsdl:output name="SOF_DelCertTrustListResponse" message="tns:SOF_DelCertTrustListResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_GetXMLSignatureInfo">
+      <wsdl:input name="SOF_GetXMLSignatureInfo" message="tns:SOF_GetXMLSignatureInfo">
+    </wsdl:input>
+      <wsdl:output name="SOF_GetXMLSignatureInfoResponse" message="tns:SOF_GetXMLSignatureInfoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_VerifySignedDataXML">
+      <wsdl:input name="SOF_VerifySignedDataXML" message="tns:SOF_VerifySignedDataXML">
+    </wsdl:input>
+      <wsdl:output name="SOF_VerifySignedDataXMLResponse" message="tns:SOF_VerifySignedDataXMLResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_SignData">
+      <wsdl:input name="SOF_SignData" message="tns:SOF_SignData">
+    </wsdl:input>
+      <wsdl:output name="SOF_SignDataResponse" message="tns:SOF_SignDataResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_SignFile">
+      <wsdl:input name="SOF_SignFile" message="tns:SOF_SignFile">
+    </wsdl:input>
+      <wsdl:output name="SOF_SignFileResponse" message="tns:SOF_SignFileResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_GetInstance">
+      <wsdl:input name="SOF_GetInstance" message="tns:SOF_GetInstance">
+    </wsdl:input>
+      <wsdl:output name="SOF_GetInstanceResponse" message="tns:SOF_GetInstanceResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_PriKeyDecrypt">
+      <wsdl:input name="SOF_PriKeyDecrypt" message="tns:SOF_PriKeyDecrypt">
+    </wsdl:input>
+      <wsdl:output name="SOF_PriKeyDecryptResponse" message="tns:SOF_PriKeyDecryptResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_GenRandom">
+      <wsdl:input name="SOF_GenRandom" message="tns:SOF_GenRandom">
+    </wsdl:input>
+      <wsdl:output name="SOF_GenRandomResponse" message="tns:SOF_GenRandomResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_SetWebAppName">
+      <wsdl:input name="SOF_SetWebAppName" message="tns:SOF_SetWebAppName">
+    </wsdl:input>
+      <wsdl:output name="SOF_SetWebAppNameResponse" message="tns:SOF_SetWebAppNameResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_GetSignMethod">
+      <wsdl:input name="SOF_GetSignMethod" message="tns:SOF_GetSignMethod">
+    </wsdl:input>
+      <wsdl:output name="SOF_GetSignMethodResponse" message="tns:SOF_GetSignMethodResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_SetEncryptMethod">
+      <wsdl:input name="SOF_SetEncryptMethod" message="tns:SOF_SetEncryptMethod">
+    </wsdl:input>
+      <wsdl:output name="SOF_SetEncryptMethodResponse" message="tns:SOF_SetEncryptMethodResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_CreateTimeStampRequest">
+      <wsdl:input name="SOF_CreateTimeStampRequest" message="tns:SOF_CreateTimeStampRequest">
+    </wsdl:input>
+      <wsdl:output name="SOF_CreateTimeStampRequestResponse" message="tns:SOF_CreateTimeStampRequestResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_GetEncryptMethod">
+      <wsdl:input name="SOF_GetEncryptMethod" message="tns:SOF_GetEncryptMethod">
+    </wsdl:input>
+      <wsdl:output name="SOF_GetEncryptMethodResponse" message="tns:SOF_GetEncryptMethodResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_CreateTimeStampResponse">
+      <wsdl:input name="SOF_CreateTimeStampResponse" message="tns:SOF_CreateTimeStampResponse">
+    </wsdl:input>
+      <wsdl:output name="SOF_CreateTimeStampResponseResponse" message="tns:SOF_CreateTimeStampResponseResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_ValidateCert">
+      <wsdl:input name="SOF_ValidateCert" message="tns:SOF_ValidateCert">
+    </wsdl:input>
+      <wsdl:output name="SOF_ValidateCertResponse" message="tns:SOF_ValidateCertResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFile">
+      <wsdl:input name="DeleteFile" message="tns:DeleteFile">
+    </wsdl:input>
+      <wsdl:output name="DeleteFileResponse" message="tns:DeleteFileResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFile">
+      <wsdl:input name="GetFile" message="tns:GetFile">
+    </wsdl:input>
+      <wsdl:output name="GetFileResponse" message="tns:GetFileResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_DecryptFile">
+      <wsdl:input name="SOF_DecryptFile" message="tns:SOF_DecryptFile">
+    </wsdl:input>
+      <wsdl:output name="SOF_DecryptFileResponse" message="tns:SOF_DecryptFileResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_SetSignMethod">
+      <wsdl:input name="SOF_SetSignMethod" message="tns:SOF_SetSignMethod">
+    </wsdl:input>
+      <wsdl:output name="SOF_SetSignMethodResponse" message="tns:SOF_SetSignMethodResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_GetTimeStampInfo">
+      <wsdl:input name="SOF_GetTimeStampInfo" message="tns:SOF_GetTimeStampInfo">
+    </wsdl:input>
+      <wsdl:output name="SOF_GetTimeStampInfoResponse" message="tns:SOF_GetTimeStampInfoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_SignDataByP7">
+      <wsdl:input name="SOF_SignDataByP7" message="tns:SOF_SignDataByP7">
+    </wsdl:input>
+      <wsdl:output name="SOF_SignDataByP7Response" message="tns:SOF_SignDataByP7Response">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_EncryptFile">
+      <wsdl:input name="SOF_EncryptFile" message="tns:SOF_EncryptFile">
+    </wsdl:input>
+      <wsdl:output name="SOF_EncryptFileResponse" message="tns:SOF_EncryptFileResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_SignDataXML">
+      <wsdl:input name="SOF_SignDataXML" message="tns:SOF_SignDataXML">
+    </wsdl:input>
+      <wsdl:output name="SOF_SignDataXMLResponse" message="tns:SOF_SignDataXMLResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_DecryptData">
+      <wsdl:input name="SOF_DecryptData" message="tns:SOF_DecryptData">
+    </wsdl:input>
+      <wsdl:output name="SOF_DecryptDataResponse" message="tns:SOF_DecryptDataResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_QueryCertTrustListAltNames">
+      <wsdl:input name="SOF_QueryCertTrustListAltNames" message="tns:SOF_QueryCertTrustListAltNames">
+    </wsdl:input>
+      <wsdl:output name="SOF_QueryCertTrustListAltNamesResponse" message="tns:SOF_QueryCertTrustListAltNamesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_GetCertInfo">
+      <wsdl:input name="SOF_GetCertInfo" message="tns:SOF_GetCertInfo">
+    </wsdl:input>
+      <wsdl:output name="SOF_GetCertInfoResponse" message="tns:SOF_GetCertInfoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_EncryptData">
+      <wsdl:input name="SOF_EncryptData" message="tns:SOF_EncryptData">
+    </wsdl:input>
+      <wsdl:output name="SOF_EncryptDataResponse" message="tns:SOF_EncryptDataResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="HealthGateWayServiceServiceSoapBinding" type="tns:HealthGateWayService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="SOF_VerifySignedData">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_VerifySignedData">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_VerifySignedDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_QueryCertTrustList">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_QueryCertTrustList">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_QueryCertTrustListResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_GetP7SignDataInfo">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_GetP7SignDataInfo">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_GetP7SignDataInfoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_SetCertTrustList">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_SetCertTrustList">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_SetCertTrustListResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_VerifySignedDataByP7">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_VerifySignedDataByP7">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_VerifySignedDataByP7Response">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_PubKeyEncrypt">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_PubKeyEncrypt">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_PubKeyEncryptResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_VerifyTimeStamp">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_VerifyTimeStamp">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_VerifyTimeStampResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_VerifySignedFile">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_VerifySignedFile">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_VerifySignedFileResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_GetCertInfoByOid">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_GetCertInfoByOid">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_GetCertInfoByOidResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_GetServerCertificate">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_GetServerCertificate">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_GetServerCertificateResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_DelCertTrustList">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_DelCertTrustList">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_DelCertTrustListResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_GetXMLSignatureInfo">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_GetXMLSignatureInfo">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_GetXMLSignatureInfoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_SignData">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_SignData">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_SignDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_VerifySignedDataXML">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_VerifySignedDataXML">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_VerifySignedDataXMLResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_SignFile">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_SignFile">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_SignFileResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_GetInstance">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_GetInstance">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_GetInstanceResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_PriKeyDecrypt">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_PriKeyDecrypt">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_PriKeyDecryptResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_GenRandom">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_GenRandom">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_GenRandomResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_GetSignMethod">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_GetSignMethod">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_GetSignMethodResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_SetWebAppName">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_SetWebAppName">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_SetWebAppNameResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_SetEncryptMethod">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_SetEncryptMethod">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_SetEncryptMethodResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_CreateTimeStampRequest">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_CreateTimeStampRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_CreateTimeStampRequestResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_GetEncryptMethod">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_GetEncryptMethod">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_GetEncryptMethodResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_CreateTimeStampResponse">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_CreateTimeStampResponse">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_CreateTimeStampResponseResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_ValidateCert">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_ValidateCert">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_ValidateCertResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFile">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="DeleteFile">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="DeleteFileResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFile">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="GetFile">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="GetFileResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_DecryptFile">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_DecryptFile">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_DecryptFileResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_SetSignMethod">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_SetSignMethod">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_SetSignMethodResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_GetTimeStampInfo">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_GetTimeStampInfo">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_GetTimeStampInfoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_EncryptFile">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_EncryptFile">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_EncryptFileResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_SignDataByP7">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_SignDataByP7">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_SignDataByP7Response">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_DecryptData">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_DecryptData">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_DecryptDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_SignDataXML">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_SignDataXML">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_SignDataXMLResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_GetCertInfo">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_GetCertInfo">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_GetCertInfoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_QueryCertTrustListAltNames">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_QueryCertTrustListAltNames">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_QueryCertTrustListAltNamesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SOF_EncryptData">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="SOF_EncryptData">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SOF_EncryptDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="HealthGateWayServiceService">
+    <wsdl:port name="HealthGateWayServicePort" binding="tns:HealthGateWayServiceServiceSoapBinding">
+      <soap:address location="http://localhost:8080/camanager/webservice/sOF_GenRandom"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
